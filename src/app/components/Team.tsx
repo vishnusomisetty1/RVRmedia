@@ -2,13 +2,15 @@ import Image from 'next/image';
 
 export default function Team() {
   return (
-    <section className="py-20 bg-black text-white">
+    <section id="contact" className="py-20 bg-black">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-12 text-center ">Meet Our Team</h2>
+        <h2 className="text-3xl font-bold mb-12 text-center text-white">
+          Meet Our Team
+        </h2>
 
         <div className="flex flex-col items-center gap-12 mb-16">
           <div className="flex flex-col items-center">
-            <div className="w-48 h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
+            <div className="w-48 h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
               <Image
                 src="/profilepic/Vishnu(temp).png"
                 alt="Vishnu Somisetty"
@@ -17,12 +19,14 @@ export default function Team() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="text-xl font-semibold">Vishnu Somisetty</h3>
+            <h3 className="text-xl font-semibold text-white">
+              Vishnu Somisetty
+            </h3>
           </div>
 
           <div className="flex flex-row justify-center gap-12">
             <div className="flex flex-col items-center">
-              <div className="w-48 h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
+              <div className="w-48 h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
                 <Image
                   src="/profilepic/Rishi.png"
                   alt="Rishi Ven"
@@ -31,11 +35,11 @@ export default function Team() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-semibold">Rishi Ven</h3>
+              <h3 className="text-xl font-semibold text-white">Rishi Ven</h3>
             </div>
 
             <div className="flex flex-col items-center">
-              <div className="w-48 h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
+              <div className="w-48 h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
                 <Image
                   src="/profilepic/Rishan.png"
                   alt="Rishan Kundharaju"
@@ -44,18 +48,32 @@ export default function Team() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-semibold">Rishan Kundharaju</h3>
+              <h3 className="text-xl font-semibold text-white">
+                Rishan Kundharaju
+              </h3>
             </div>
           </div>
         </div>
+
         <div className="text-center">
-          <p className="text-lg text-white">
+          <p className="text-lg text-white mb-2">
             Gmail:{' '}
             <a
               href="mailto:rvr.mediaco@gmail.com"
-              className="text-blue-600 hover:underline"
+              className="text-blue-400 hover:underline"
             >
               rvr.mediaco@gmail.com
+            </a>
+          </p>
+          <p className="text-lg text-white">
+            Instagram:{' '}
+            <a
+              href="https://www.instagram.com/rvr_mediaco/profilecard"
+              className="text-blue-400 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @rvr_mediaco
             </a>
           </p>
         </div>

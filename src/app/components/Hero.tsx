@@ -19,8 +19,9 @@ export default function Hero() {
           We bring your vision to life through innovative media solutions
         </p>
         <Link
-          href="/contact"
+          href="#contact"
           className="bg-white text-black px-8 py-4 rounded-full hover:bg-white/90 transition-colors"
+          scroll={true}
         >
           Get in Touch
         </Link>
