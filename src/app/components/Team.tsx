@@ -36,7 +36,7 @@ export default function Team() {
                 />
               </div>
               <h3 className="text-lg md:text-xl font-semibold text-white">
-                Rishi Ven
+                Rishikesh Venkateshwaraja
               </h3>
             </div>
 
