@@ -10,8 +10,8 @@ export default function Home() {
       <section className="relative h-screen">
         {/* Add your background image here */}
         <Image
-          src="/your-background-image.jpg" // Replace with your image path
-          alt="Background"
+          src="/portfolio/swan_cabin.JPG"
+          alt="Swan Cabin Background"
           fill
           className="object-cover"
           priority
@@ -21,9 +21,7 @@ export default function Home() {
 
         {/* Hero Content */}
         <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-6xl font-bold mb-6 text-white">
-            Creating Impactful Digital Experiences
-          </h1>
+          <h1 className="text-6xl font-bold mb-6 text-white">RVR Media</h1>
           <p className="text-xl text-white/90 mb-8 max-w-2xl">
             We bring your vision to life through innovative media solutions
           </p>
@@ -33,6 +31,48 @@ export default function Home() {
           >
             Get in Touch
           </Link>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section id="gallery" className="py-20 bg-black">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center text-white">
+            Our Work
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+            {[
+              'candidme.JPG',
+              'group.JPG',
+              'spkkkk.JPG',
+              'temple.JPG',
+              'navside.JPG',
+              'peacockwhite.JPG',
+              'rishiside.JPG',
+              'IMG_9164.jpeg',
+              'peacocktwo.JPG',
+              'mecasual.JPG',
+              'bluepeacock.JPG',
+              'pittsburgh.JPG',
+              'swan.JPG',
+              'lightning.JPG',
+              'meside.JPG',
+            ].map((image) => (
+              <div
+                key={image}
+                className="relative aspect-square group overflow-hidden"
+              >
+                <Image
+                  src={`/gallery/${image}`}
+                  alt={`Gallery image ${image}`}
+                  fill
+                  className="object-cover transition-all duration-300 hover:scale-105"
+                />
+                <div className="absolute inset-0 border border-white/10" />
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

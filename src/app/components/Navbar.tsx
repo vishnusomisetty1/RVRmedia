@@ -13,8 +13,9 @@ export default function Navbar() {
               Home
             </Link>
             <Link
-              href="/Gallery"
-              className="hover:text-foreground/80 transition-colors"
+              href="#gallery"
+              className="text-white hover:text-white/80"
+              scroll={true}
             >
               Gallery
             </Link>
