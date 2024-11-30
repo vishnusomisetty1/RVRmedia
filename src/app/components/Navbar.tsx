@@ -26,6 +26,12 @@ export default function Navbar() {
             >
               Contact us
             </Link>
+            <Link
+              href="/booking"
+              className="text-white hover:text-white/80 transition-colors"
+            >
+              Book Us
+            </Link>
           </div>
         </div>
       </div>

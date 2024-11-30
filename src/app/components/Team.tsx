@@ -3,14 +3,14 @@ import Image from 'next/image';
 export default function Team() {
   return (
     <section id="contact" className="py-20 bg-black">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold mb-12 text-center text-white">
           Meet Our Team
         </h2>
 
         <div className="flex flex-col items-center gap-12 mb-16">
           <div className="flex flex-col items-center">
-            <div className="w-48 h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
+            <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
               <Image
                 src="/profilepic/Vishnu(temp).png"
                 alt="Vishnu Somisetty"
@@ -19,14 +19,14 @@ export default function Team() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="text-xl font-semibold text-white">
+            <h3 className="text-lg md:text-xl font-semibold text-white">
               Vishnu Somisetty
             </h3>
           </div>
 
-          <div className="flex flex-row justify-center gap-12">
+          <div className="flex flex-col md:flex-row justify-center gap-12">
             <div className="flex flex-col items-center">
-              <div className="w-48 h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
+              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
                 <Image
                   src="/profilepic/Rishi.png"
                   alt="Rishi Ven"
@@ -35,11 +35,13 @@ export default function Team() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-white">Rishi Ven</h3>
+              <h3 className="text-lg md:text-xl font-semibold text-white">
+                Rishi Ven
+              </h3>
             </div>
 
             <div className="flex flex-col items-center">
-              <div className="w-48 h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
+              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
                 <Image
                   src="/profilepic/Rishan.png"
                   alt="Rishan Kundharaju"
@@ -48,7 +50,7 @@ export default function Team() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-white">
+              <h3 className="text-lg md:text-xl font-semibold text-white">
                 Rishan Kundharaju
               </h3>
             </div>
