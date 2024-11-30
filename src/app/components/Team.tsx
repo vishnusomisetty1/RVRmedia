@@ -2,11 +2,9 @@ import Image from 'next/image';
 
 export default function Team() {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-black text-white">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-12 text-center text-black">
-          Meet Our Team
-        </h2>
+        <h2 className="text-3xl font-bold mb-12 text-center ">Meet Our Team</h2>
 
         <div className="flex flex-col items-center gap-12 mb-16">
           <div className="flex flex-col items-center">
@@ -19,9 +17,7 @@ export default function Team() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="text-xl font-semibold text-black">
-              Vishnu Somisetty
-            </h3>
+            <h3 className="text-xl font-semibold">Vishnu Somisetty</h3>
           </div>
 
           <div className="flex flex-row justify-center gap-12">
@@ -35,7 +31,7 @@ export default function Team() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-black">Rishi Ven</h3>
+              <h3 className="text-xl font-semibold">Rishi Ven</h3>
             </div>
 
             <div className="flex flex-col items-center">
@@ -48,15 +44,12 @@ export default function Team() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-black">
-                Rishan Kundharaju
-              </h3>
+              <h3 className="text-xl font-semibold">Rishan Kundharaju</h3>
             </div>
           </div>
         </div>
-
         <div className="text-center">
-          <p className="text-lg text-black">
+          <p className="text-lg text-white">
             Gmail:{' '}
             <a
               href="mailto:rvr.mediaco@gmail.com"
