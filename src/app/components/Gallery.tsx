@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const GALLERY_IMAGES = [
   'candidme.JPG',
-  'SPK.JPG',
+  'SPK.jpg',
   'temple.JPG',
   'navside.JPG',
   'peacockwhite.JPG',
