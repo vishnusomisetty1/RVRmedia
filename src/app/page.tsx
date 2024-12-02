@@ -9,8 +9,8 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
-      <Gallery />
       <Services />
+      <Gallery />
       <Team />
     </>
   );
