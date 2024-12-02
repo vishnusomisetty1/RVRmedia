@@ -23,8 +23,8 @@ export default function Hero() {
   return (
     <section className="relative h-screen">
       <Image
-        src="/portfolio/swan_cabin.JPG"
-        alt="Swan Cabin Background"
+        src="/portfolio/Bground.jpg"
+        alt="Background Image"
         fill
         className="object-cover"
         priority
@@ -33,16 +33,18 @@ export default function Hero() {
           transition: 'filter 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       />
-      <div className="absolute inset-0 bg-black/50" />
 
       <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-        <h1 className="text-6xl font-bold mb-6 text-white">RVR Media</h1>
-        <p className="text-xl text-white/90 mb-8 max-w-2xl">
-          We bring your vision to life through innovative media solutions
+        <h1 className="text-6xl font-extrabold mb-6 text-white tracking-tight">
+          RVR Media
+        </h1>
+        <p className="text-2xl text-white/90 mb-8 max-w-2xl leading-relaxed italic">
+          Professional video production for your special moments - weddings,
+          events, corporate, and more
         </p>
         <Link
           href="/#contact"
-          className="bg-white text-black px-8 py-4 rounded-full hover:bg-white/90 transition-colors"
+          className="bg-white text-black px-8 py-4 rounded-full hover:bg-white/90 transition-colors font-bold text-lg"
         >
           Get in Touch
         </Link>

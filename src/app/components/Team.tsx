@@ -2,15 +2,15 @@ import Image from 'next/image';
 
 export default function Team() {
   return (
-    <section id="contact" className="py-20 bg-black">
+    <section id="contact" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold mb-12 text-center text-white">
+        <h2 className="text-3xl font-bold mb-12 text-center text-black">
           Meet Our Team
         </h2>
 
         <div className="flex flex-col items-center gap-12 mb-16">
           <div className="flex flex-col items-center">
-            <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
+            <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
               <Image
                 src="/profilepic/Vishnu(temp).png"
                 alt="Vishnu Somisetty"
@@ -19,14 +19,14 @@ export default function Team() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="text-lg md:text-xl font-semibold text-white">
+            <h3 className="text-lg md:text-xl font-semibold text-black">
               Vishnu Somisetty
             </h3>
           </div>
 
           <div className="flex flex-col md:flex-row justify-center gap-12">
             <div className="flex flex-col items-center">
-              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
+              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
                 <Image
                   src="/profilepic/Rishi.png"
                   alt="Rishi Ven"
@@ -35,13 +35,13 @@ export default function Team() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-lg md:text-xl font-semibold text-white">
+              <h3 className="text-lg md:text-xl font-semibold text-black">
                 Rishikesh Venkateshwaraja
               </h3>
             </div>
 
             <div className="flex flex-col items-center">
-              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-white/10">
+              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
                 <Image
                   src="/profilepic/Rishan.png"
                   alt="Rishan Kundharaju"
@@ -50,7 +50,7 @@ export default function Team() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-lg md:text-xl font-semibold text-white">
+              <h3 className="text-lg md:text-xl font-semibold text-black">
                 Rishan Kundharaju
               </h3>
             </div>
@@ -58,7 +58,7 @@ export default function Team() {
         </div>
 
         <div className="text-center">
-          <p className="text-lg text-white mb-2">
+          <p className="text-lg text-black mb-2">
             Gmail:{' '}
             <a
               href="mailto:rvr.mediaco@gmail.com"
@@ -67,7 +67,7 @@ export default function Team() {
               rvr.mediaco@gmail.com
             </a>
           </p>
-          <p className="text-lg text-white">
+          <p className="text-lg text-black">
             Instagram:{' '}
             <a
               href="https://www.instagram.com/rvr_mediaco/profilecard"
