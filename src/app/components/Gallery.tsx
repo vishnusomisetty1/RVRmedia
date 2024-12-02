@@ -2,15 +2,13 @@ import Image from 'next/image';
 
 const GALLERY_IMAGES = [
   'candidme.JPG',
-  'group.JPG',
-  'spkkkk.JPG',
+  'SPK.JPG',
   'temple.JPG',
   'navside.JPG',
   'peacockwhite.JPG',
   'rishiside.JPG',
   'IMG_9164.jpeg',
   'peacocktwo.JPG',
-  'mecasual.JPG',
   'bluepeacock.JPG',
   'pittsburgh.JPG',
   'swan.JPG',
