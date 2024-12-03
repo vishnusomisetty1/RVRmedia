@@ -40,7 +40,7 @@ export default function Hero() {
         </h1>
         <p className="text-2xl text-white/90 mb-8 max-w-2xl leading-relaxed italic">
           Professional video production for your special moments - weddings,
-          events, corporate, and more
+          birthday parties, and more
         </p>
         <Link
           href="/#contact"
