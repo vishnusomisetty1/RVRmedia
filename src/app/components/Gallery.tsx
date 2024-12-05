@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
 const GALLERY_IMAGES = [
-  'candidme.JPG',
   'SPK.jpg',
   'temple.JPG',
   'navside.JPG',
@@ -24,21 +23,32 @@ export default function Gallery() {
           Our Work
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-          {GALLERY_IMAGES.map((image) => (
-            <div
-              key={image}
-              className="relative aspect-square group overflow-hidden"
-            >
-              <Image
-                src={`/gallery/${image}`}
-                alt={`Gallery image ${image}`}
-                fill
-                className="object-cover transition-all duration-300 hover:scale-105"
-              />
-              <div className="absolute inset-0 border border-black/10" />
-              <div className="absolute inset-0 bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-          ))}
+          {GALLERY_IMAGES.map((media) => {
+            const isVideo = media.toLowerCase().endsWith('.mp4');
+            return (
+              <div
+                key={media}
+                className="relative aspect-square group overflow-hidden"
+              >
+                {isVideo ? (
+                  <video
+                    src={`/gallery/${media}`}
+                    controls
+                    className="object-cover transition-all duration-300 hover:scale-105"
+                  />
+                ) : (
+                  <Image
+                    src={`/gallery/${media}`}
+                    alt={`Gallery image ${media}`}
+                    fill
+                    className="object-cover transition-all duration-300 hover:scale-105"
+                  />
+                )}
+                <div className="absolute inset-0 border border-black/10" />
+                <div className="absolute inset-0 bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -9,18 +9,26 @@ const SERVICES = [
   },
   {
     title: 'Drone Cinematography',
-    description: 'Stunning aerial footage and perspectives',
+    description: (
+      <video
+        src="/gallery/droneshot.MP4"
+        autoPlay
+        loop
+        muted
+        className="object-cover w-full h-full transition-all duration-300 hover:scale-105"
+      />
+    ),
   },
 ];
 
 export default function Services() {
   return (
-    <section className="py-20 bg-white">
+    <section id="services" className="py-20 bg-gray-100">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl font-bold mb-12 text-center text-black">
           Our Services
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
           {SERVICES.map((service) => (
             <div
               key={service.title}
