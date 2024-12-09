@@ -34,7 +34,7 @@ export default function Gallery() {
         <h2 className="text-3xl font-bold mb-12 text-center text-black">
           Our Work
         </h2>
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-0.5">
+        <div className="columns-1 sm:columns-2 md:columns-3 gap-0.5">
           {GALLERY_IMAGES.map((media) => {
             const isVideo = media.toLowerCase().endsWith('.mp4');
             return (
@@ -57,7 +57,7 @@ export default function Gallery() {
                       src={`/gallery/${media}`}
                       alt={`Gallery image ${media}`}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                       className="object-cover transition-all duration-300 group-hover:scale-105"
                     />
                   )}
