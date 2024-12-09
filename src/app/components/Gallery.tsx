@@ -25,6 +25,7 @@ const GALLERY_IMAGES = [
   'mustang.jpg',
   'swan.JPG',
   'lightning.JPG',
+  'droneshot.MP4',
 ] as const;
 
 export default function Gallery() {
@@ -40,7 +41,7 @@ export default function Gallery() {
             return (
               <div
                 key={media}
-                className="relative group break-inside-avoid mb-0.5"
+                className="relative group break-inside-avoid mb-0.5 overflow-hidden"
               >
                 <div className="relative h-[300px]">
                   {isVideo ? (
@@ -50,7 +51,7 @@ export default function Gallery() {
                       loop
                       muted
                       playsInline
-                      className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   ) : (
                     <Image
@@ -58,7 +59,7 @@ export default function Gallery() {
                       alt={`Gallery image ${media}`}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                      className="object-cover transition-all duration-300 group-hover:scale-105"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   )}
                   <div className="absolute inset-0 border border-black/5" />

@@ -9,15 +9,7 @@ const SERVICES = [
   },
   {
     title: 'Drone Cinematography',
-    description: (
-      <video
-        src="/gallery/droneshot.MP4"
-        autoPlay
-        loop
-        muted
-        className="object-cover w-full h-full transition-all duration-300 hover:scale-105"
-      />
-    ),
+    description: 'Stunning aerial footage and perspectives',
   },
 ];
 
