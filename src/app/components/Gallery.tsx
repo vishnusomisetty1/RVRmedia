@@ -1,19 +1,31 @@
 import Image from 'next/image';
 
 const GALLERY_IMAGES = [
+  'candidme.JPG',
   'SPK.jpg',
+  'bball.png',
   'temple.JPG',
   'navside.JPG',
+  'icerink.MP4',
+  'bench.png',
   'peacockwhite.JPG',
   'rishiside.JPG',
+  'beachme.png',
+  'bridge.png',
   'IMG_9164.jpeg',
+  'cooly.png',
+  'penny.MP4',
   'peacocktwo.JPG',
+  'house.png',
+  'cutey.png',
   'bluepeacock.JPG',
+  'sedona.MP4',
+  'meside.JPG',
   'pittsburgh.JPG',
+  'mustang.jpg',
   'swan.JPG',
   'lightning.JPG',
-  'meside.JPG',
-];
+] as const;
 
 export default function Gallery() {
   return (
@@ -22,30 +34,36 @@ export default function Gallery() {
         <h2 className="text-3xl font-bold mb-12 text-center text-black">
           Our Work
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-0.5">
           {GALLERY_IMAGES.map((media) => {
             const isVideo = media.toLowerCase().endsWith('.mp4');
             return (
               <div
                 key={media}
-                className="relative aspect-square group overflow-hidden"
+                className="relative group break-inside-avoid mb-0.5"
               >
-                {isVideo ? (
-                  <video
-                    src={`/gallery/${media}`}
-                    controls
-                    className="object-cover transition-all duration-300 hover:scale-105"
-                  />
-                ) : (
-                  <Image
-                    src={`/gallery/${media}`}
-                    alt={`Gallery image ${media}`}
-                    fill
-                    className="object-cover transition-all duration-300 hover:scale-105"
-                  />
-                )}
-                <div className="absolute inset-0 border border-black/10" />
-                <div className="absolute inset-0 bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative h-[300px]">
+                  {isVideo ? (
+                    <video
+                      src={`/gallery/${media}`}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <Image
+                      src={`/gallery/${media}`}
+                      alt={`Gallery image ${media}`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover transition-all duration-300 group-hover:scale-105"
+                    />
+                  )}
+                  <div className="absolute inset-0 border border-black/5" />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
               </div>
             );
           })}
