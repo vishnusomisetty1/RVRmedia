@@ -35,14 +35,11 @@ export default function Gallery() {
         <h2 className="text-3xl font-bold mb-12 text-center text-black">
           Our Work
         </h2>
-        <div className="columns-1 sm:columns-2 md:columns-3 gap-0.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0.5">
           {GALLERY_IMAGES.map((media) => {
             const isVideo = media.toLowerCase().endsWith('.mp4');
             return (
-              <div
-                key={media}
-                className="relative group break-inside-avoid mb-0.5 overflow-hidden"
-              >
+              <div key={media} className="relative group overflow-hidden">
                 <div className="relative h-[300px]">
                   {isVideo ? (
                     <video
