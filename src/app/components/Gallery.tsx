@@ -9,7 +9,6 @@ const GALLERY_IMAGES = [
   'Bground.jpg',
   'robville.JPG',
   'icerink.MP4',
-  'bench.png',
   'peacockwhite.JPG',
   'rishiside.JPG',
   'penny2.MP4',
