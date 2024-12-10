@@ -1,6 +1,4 @@
 'use client';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function Hero() {
@@ -8,46 +6,45 @@ export default function Hero() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Make the blur effect more gradual
-      // Max blur of 8px when scrolled 800px
-      const blur = Math.min((window.scrollY / 800) * 8, 8);
-      requestAnimationFrame(() => {
-        setScrollBlur(blur);
-      });
+      const scrollPosition = window.scrollY;
+      const maxBlur = 10; // maximum blur in pixels
+      const blurValue = Math.min((scrollPosition / 200) * maxBlur, maxBlur);
+      setScrollBlur(blurValue);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <section className="relative h-screen">
-      <Image
-        src="/portfolio/Bground.jpg"
-        alt="Background Image"
-        fill
-        className="object-cover"
-        priority
+    <section className="relative h-screen flex items-center justify-center">
+      {/* Background image with dynamic blur */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-100"
         style={{
+          backgroundImage: 'url(/portfolio/NYbridge.png)',
+          opacity: 0.7,
           filter: `blur(${scrollBlur}px)`,
-          transition: 'filter 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       />
 
-      <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-        <h1 className="text-6xl font-extrabold mb-6 text-white tracking-tight">
-          RVR Media
-        </h1>
-        <p className="text-2xl text-white/90 mb-8 max-w-2xl leading-relaxed italic">
-          Professional video production for your special moments - weddings,
-          birthday parties, and more
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/50" />
+
+      {/* Content */}
+      <div className="relative z-10 text-center text-white">
+        <h1 className="text-5xl font-bold mb-4">RVR Media</h1>
+        <p className="text-xl italic">
+          Professional video production for your special moments -
+          <br />
+          weddings, birthday parties, and more
         </p>
-        <Link
-          href="/#contact"
-          className="bg-white text-black px-8 py-4 rounded-full hover:bg-white/90 transition-colors font-bold text-lg"
+        <a
+          href="#contact"
+          className="inline-block mt-8 px-8 py-3 bg-white text-black rounded-full font-semibold hover:bg-black hover:text-white transition-colors"
         >
           Get in Touch
-        </Link>
+        </a>
       </div>
     </section>
   );
