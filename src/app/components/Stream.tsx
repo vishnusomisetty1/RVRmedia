@@ -13,7 +13,7 @@ export default function Stream() {
         <iframe
           width="560"
           height="315"
-          src="https://www.youtube.com/embed/iAUQJF_cKEY"
+          src="https://youtube.com/live/NW-LZl5HC6M?feature=share"
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -22,7 +22,7 @@ export default function Stream() {
       </div>
 
       <a
-        href="https://youtu.be/iAUQJF_cKEY?si=ZvBBEfgqIYAI8fOT" // Replace with your actual YouTube link
+        href="https://youtube.com/live/NW-LZl5HC6M?feature=share" // Replace with your actual YouTube link
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block px-8 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-colors"
