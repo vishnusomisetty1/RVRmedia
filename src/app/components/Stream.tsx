@@ -19,7 +19,7 @@ export default function Stream() {
         />
       </div>
       <a
-        href="https://youtube.com/live/N4fbYL59GJo?feature=share"
+        href="https://youtube.com/live/02QNQzOXAtg?feature=share"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block px-8 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-colors"
