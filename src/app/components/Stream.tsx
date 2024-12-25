@@ -11,7 +11,7 @@ export default function Stream() {
       <div className="flex justify-center mb-8">
         <iframe
           className="w-full max-w-2xl aspect-video"
-          src="https://youtube.com/live/N4fbYL59GJo?feature=share"
+          src="https://www.youtube.com/embed/N4fbYL59GJo"
           title="YouTube live stream"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
