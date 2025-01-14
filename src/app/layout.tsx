@@ -15,16 +15,23 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://your-website-url.com'), // Replace with your actual domain
+  metadataBase: new URL('https://rvrmedia.vercel.app'),
   title: 'RVR Media',
   description: 'Professional Photography and Videography Services',
+  icons: {
+    icon: '/favicon.ico',
+  },
   openGraph: {
+    type: 'website',
+    url: 'https://rvrmedia.vercel.app',
     title: 'RVR Media',
     description: 'Professional Photography and Videography Services',
     siteName: 'RVR Media',
     images: [
       {
-        url: '/favicon.ico', // or use a proper OG image like '/og-image.png'
+        url: '/favicon.ico',
+        width: 800,
+        height: 600,
       },
     ],
   },
@@ -32,7 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'RVR Media',
     description: 'Professional Photography and Videography Services',
-    images: ['/favicon.ico'], // or use a proper OG image
+    images: ['/favicon.ico'],
   },
 };
 
