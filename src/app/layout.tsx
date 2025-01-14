@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: 'RVR Media',
     images: [
       {
-        url: '/favicon.ico',
+        url: '/portfolio/grouppic.jpeg',
         width: 800,
         height: 600,
       },
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'RVR Media',
     description: 'Professional Photography and Videography Services',
-    images: ['/favicon.ico'],
+    images: ['/portfolio/grouppic.jpeg'],
   },
 };
 
