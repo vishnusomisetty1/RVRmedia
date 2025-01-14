@@ -16,16 +16,23 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://your-website-url.com'), // Replace with your actual domain
-  title: "Ratna & Suresh's Gruhapravesam",
-  description: 'Join us for our Gruhapravesam celebration on 12/25/24',
+  title: 'RVR Media',
+  description: 'Professional Photography and Videography Services',
   openGraph: {
-    images: '/gallery/favicon.ico', // Path to your favicon in the public folder
-    title: "Ratna & Suresh's Gruhapravesam",
-    description: 'Join us for our Gruhapravesam celebration on 12/25/24',
+    title: 'RVR Media',
+    description: 'Professional Photography and Videography Services',
+    siteName: 'RVR Media',
+    images: [
+      {
+        url: '/favicon.ico', // or use a proper OG image like '/og-image.png'
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    images: '/gallery/favicon.ico', // Path to your favicon in the public folder
+    title: 'RVR Media',
+    description: 'Professional Photography and Videography Services',
+    images: ['/favicon.ico'], // or use a proper OG image
   },
 };
 
