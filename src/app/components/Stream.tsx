@@ -11,7 +11,7 @@ export default function Stream() {
       <div className="flex justify-center mb-8">
         <iframe
           className="w-full max-w-2xl aspect-video"
-          src="https://youtube.com/live/02QNQzOXAtg?feature=share"
+          src=""
           title="YouTube live stream"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -19,7 +19,7 @@ export default function Stream() {
         />
       </div>
       <a
-        href="https://youtube.com/live/02QNQzOXAtg?feature=share"
+        href="https://youtube.com/live/_Tp1tEzKhKure=share"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block px-8 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-colors"

@@ -22,7 +22,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-100"
         style={{
-          backgroundImage: 'url(/portfolio/NYbridge.png)',
+          backgroundImage: 'url(/portfolio/grouppic.jpeg)',
           opacity: 0.7,
           filter: `blur(${scrollBlur}px)`,
         }}
