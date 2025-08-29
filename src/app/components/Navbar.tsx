@@ -12,12 +12,7 @@ export default function Navbar() {
             >
               Home
             </Link>
-            <Link
-              href="/gallery"
-              className="text-white hover:text-white/80 transition-colors"
-            >
-              Gallery
-            </Link>
+
             <Link
               href="/#contact"
               className="text-white hover:text-white/80 transition-colors"
