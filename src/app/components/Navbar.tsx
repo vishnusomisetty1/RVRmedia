@@ -26,6 +26,12 @@ export default function Navbar() {
             >
               Book Us
             </Link>
+            <Link
+              href="/gallery"
+              className="text-white hover:text-white/80 transition-colors"
+            >
+              Gallery
+            </Link>
           </div>
         </div>
       </div>
