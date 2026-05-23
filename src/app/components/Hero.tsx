@@ -5,24 +5,20 @@ import { useEffect, useState } from 'react';
 
 const HERO_IMAGES = [
   {
-    src: '/gallery/_DSC9038.jpg',
-    alt: 'Guests gathered at a warm cinematic event',
+    src: '/gallery/_DSC9302.jpg',
+    alt: 'Cinematic private event moment',
+  },
+  {
+    src: '/gallery/_DSC9499.jpg',
+    alt: 'Event portrait in a warm lounge setting',
+  },
+  {
+    src: '/gallery/_DSC9526.jpg',
+    alt: 'Candid event coverage moment',
   },
   {
     src: '/gallery/DSC09348.jpg',
     alt: 'Large group portrait at a private event',
-  },
-  {
-    src: '/gallery/_DSC9473.jpg',
-    alt: 'Dance floor candid moment with guests celebrating',
-  },
-  {
-    src: '/gallery/_DSC9770.jpg',
-    alt: 'Event detail shot at a warmly lit bar',
-  },
-  {
-    src: '/portfolio/grouppic.jpeg',
-    alt: 'RVR Media behind the scenes camera team',
   },
 ];
 
