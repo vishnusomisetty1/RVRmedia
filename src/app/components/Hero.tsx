@@ -50,7 +50,7 @@ export default function Hero() {
               priority={index === 0}
               sizes="100vw"
               className={`object-cover ${
-                activeImage === index ? 'hero-image-zoom' : 'scale-100'
+                activeImage === index ? 'hero-image-pan-right' : 'scale-105'
               }`}
             />
           </div>

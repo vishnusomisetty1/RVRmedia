@@ -37,17 +37,21 @@ body {
   animation: galleryFadeUp 650ms ease forwards;
 }
 
-.hero-image-zoom {
-  animation: heroImageZoom 6500ms ease-out forwards;
+.hero-image-pan-right {
+  animation: heroImagePanRight 5000ms ease-in-out forwards;
 }
 
-@keyframes heroImageZoom {
-  from {
-    transform: scale(1);
+@keyframes heroImagePanRight {
+  0% {
+    transform: scale(1.05) translateX(0);
   }
 
-  to {
-    transform: scale(1.06);
+  28% {
+    transform: scale(1.055) translateX(0);
+  }
+
+  100% {
+    transform: scale(1.08) translateX(3.5%);
   }
 }
 
@@ -57,7 +61,7 @@ body {
     animation: none;
   }
 
-  .hero-image-zoom {
+  .hero-image-pan-right {
     animation: none;
   }
 }
