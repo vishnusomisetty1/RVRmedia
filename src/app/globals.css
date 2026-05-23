@@ -37,9 +37,27 @@ body {
   animation: galleryFadeUp 650ms ease forwards;
 }
 
+.hero-image-zoom {
+  animation: heroImageZoom 6500ms ease-out forwards;
+}
+
+@keyframes heroImageZoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.06);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .gallery-card {
     opacity: 1;
+    animation: none;
+  }
+
+  .hero-image-zoom {
     animation: none;
   }
 }
