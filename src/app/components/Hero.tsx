@@ -32,7 +32,7 @@ export default function Hero() {
     const interval = window.setInterval(() => {
       setIsTransitioning(true);
       setActiveImage((currentImage) => currentImage + 1);
-    }, 5000);
+    }, 8000);
 
     return () => window.clearInterval(interval);
   }, []);
