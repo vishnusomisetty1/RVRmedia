@@ -8,7 +8,7 @@ export default function Team() {
           Meet Our Team
         </h2>
 
-        <div className="flex flex-col items-center gap-12 mb-16">
+        <div className="mb-16 flex flex-col items-center justify-center gap-12 md:flex-row">
           <div className="flex flex-col items-center">
             <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
               <Image
@@ -24,36 +24,19 @@ export default function Team() {
             </h3>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-center gap-12">
-            <div className="flex flex-col items-center">
-              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
-                <Image
-                  src="/profilepic/Rishi.png"
-                  alt="Rishi Ven"
-                  width={192}
-                  height={192}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-lg md:text-xl font-semibold text-black">
-                Rishikesh Venkateshwaraja
-              </h3>
+          <div className="flex flex-col items-center">
+            <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
+              <Image
+                src="/profilepic/Rishan.png"
+                alt="Rishan Kundharaju"
+                width={192}
+                height={192}
+                className="w-full h-full object-cover"
+              />
             </div>
-
-            <div className="flex flex-col items-center">
-              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
-                <Image
-                  src="/profilepic/Rishan.png"
-                  alt="Rishan Kundharaju"
-                  width={192}
-                  height={192}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-lg md:text-xl font-semibold text-black">
-                Rishan Kundharaju
-              </h3>
-            </div>
+            <h3 className="text-lg md:text-xl font-semibold text-black">
+              Rishan Kundharaju
+            </h3>
           </div>
         </div>
 
