@@ -37,31 +37,9 @@ body {
   animation: galleryFadeUp 650ms ease forwards;
 }
 
-.hero-image-pan-right {
-  animation: heroImagePanRight 5000ms ease-in-out forwards;
-}
-
-@keyframes heroImagePanRight {
-  0% {
-    transform: scale(1.05) translateX(0);
-  }
-
-  28% {
-    transform: scale(1.055) translateX(0);
-  }
-
-  100% {
-    transform: scale(1.08) translateX(3.5%);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .gallery-card {
     opacity: 1;
-    animation: none;
-  }
-
-  .hero-image-pan-right {
     animation: none;
   }
 }
