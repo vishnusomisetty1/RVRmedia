@@ -37,9 +37,33 @@ body {
   animation: galleryFadeUp 650ms ease forwards;
 }
 
+.hero-slide-image {
+  animation: heroFadeZoom 8000ms ease-out infinite;
+}
+
+@keyframes heroFadeZoom {
+  0% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .gallery-card {
     opacity: 1;
+    animation: none;
+  }
+
+  .hero-slide-image {
     animation: none;
   }
 }

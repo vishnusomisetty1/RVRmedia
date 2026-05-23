@@ -67,19 +67,19 @@ export default function Hero() {
           }}
         >
           {SLIDES.map((image, index) => (
-          <div
-            key={`${image.src}-${index}`}
-            className="relative h-full min-w-full overflow-hidden"
-          >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              priority={index === 0}
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
+            <div
+              key={`${image.src}-${index}`}
+              className="relative h-full min-w-full overflow-hidden"
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                priority={index === 0}
+                sizes="100vw"
+                className="hero-slide-image object-cover"
+              />
+            </div>
           ))}
         </div>
       </div>
