@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/generate-gallery-manifest.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "gallery:manifest": "node scripts/generate-gallery-manifest.mjs",
     "gallery:previews": "node scripts/generate-gallery-previews.mjs"
   },
   "dependencies": {
