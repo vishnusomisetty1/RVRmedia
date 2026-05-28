@@ -10,10 +10,11 @@ export const PORTFOLIO_CATEGORIES = [
     id: 'portraits',
     title: 'Portraits',
     folder: 'portraits',
+    coverImageName: '_DSC9770',
   },
   {
     id: 'creative',
-    title: 'Creative / Lifestyle',
+    title: 'Candid / Lifestyle',
     folder: 'creative',
   },
 ] as const;

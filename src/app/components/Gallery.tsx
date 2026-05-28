@@ -16,11 +16,11 @@ export default async function Gallery() {
             Portfolio
           </p>
           <h2 className="mt-3 text-3xl font-bold text-black md:text-4xl">
-            Events, Portraits, and Creative Work
+            Events, Portraits, and Candid Work
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base text-black/65">
             Browse the three booking-focused categories we shoot most: full
-            event coverage, directed portraits, and cinematic lifestyle work.
+            event coverage, directed portraits, and natural lifestyle moments.
           </p>
         </div>
 

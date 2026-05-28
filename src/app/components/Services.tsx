@@ -10,9 +10,9 @@ const SERVICES = [
       'Individual portraits, headshots, couples, families, and posed group photos with clean direction on location.',
   },
   {
-    title: 'Creative / Lifestyle',
+    title: 'Candid / Lifestyle',
     description:
-      'NYC shoots, cinematic edits, fashion-style sessions, and experimental visuals built around a sharper concept.',
+      'Natural moments, casual lifestyle shots, NYC shoots, and cinematic edits with a more spontaneous feel.',
   },
 ];
 

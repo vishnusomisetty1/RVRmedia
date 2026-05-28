@@ -9,6 +9,7 @@ type PortfolioCategory = {
   id: PortfolioCategoryId;
   title: string;
   folder: string;
+  coverImageName?: string;
 };
 
 type PortfolioBrowserProps = {
@@ -63,7 +64,10 @@ export default function PortfolioBrowser({
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
       {categories.map((category) => {
         const categoryItems = categoryItemsById.get(category.id) ?? [];
-        const coverImage = categoryItems[0]?.previewSrc ?? categoryItems[0]?.src;
+        const coverItem =
+          categoryItems.find((item) => item.name === category.coverImageName) ??
+          categoryItems[0];
+        const coverImage = coverItem?.previewSrc ?? coverItem?.src;
 
         return (
           <button
@@ -82,10 +86,6 @@ export default function PortfolioBrowser({
             />
             <div className="p-5">
               <h3 className="text-xl font-bold">{category.title}</h3>
-              <p className="mt-1 text-sm text-white/60">
-                {categoryItems.length} photo
-                {categoryItems.length === 1 ? '' : 's'}
-              </p>
             </div>
           </button>
         );

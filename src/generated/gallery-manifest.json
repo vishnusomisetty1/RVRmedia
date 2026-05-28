@@ -1,9 +1,39 @@
 [
   {
+    "name": "_DSC0171-2",
+    "src": "/gallery/creative/_DSC0171-2.jpg",
+    "type": "image",
+    "category": "creative"
+  },
+  {
+    "name": "_DSC0661",
+    "src": "/gallery/creative/_DSC0661.jpg",
+    "type": "image",
+    "category": "creative"
+  },
+  {
+    "name": "_DSC0838",
+    "src": "/gallery/creative/_DSC0838.jpg",
+    "type": "image",
+    "category": "creative"
+  },
+  {
+    "name": "_DSC0884",
+    "src": "/gallery/creative/_DSC0884.jpg",
+    "type": "image",
+    "category": "creative"
+  },
+  {
     "name": "_DSC9473",
     "src": "/gallery/creative/_DSC9473.jpg",
     "type": "image",
     "category": "creative"
+  },
+  {
+    "name": "_DSC1671",
+    "src": "/gallery/events/_DSC1671.jpg",
+    "type": "image",
+    "category": "events"
   },
   {
     "name": "_DSC9038",
@@ -34,6 +64,30 @@
     "src": "/gallery/events/_DSC9526.jpg",
     "type": "image",
     "category": "events"
+  },
+  {
+    "name": "_DSC0794",
+    "src": "/gallery/portraits/_DSC0794.jpg",
+    "type": "image",
+    "category": "portraits"
+  },
+  {
+    "name": "_DSC0843",
+    "src": "/gallery/portraits/_DSC0843.jpg",
+    "type": "image",
+    "category": "portraits"
+  },
+  {
+    "name": "_DSC0912",
+    "src": "/gallery/portraits/_DSC0912.jpg",
+    "type": "image",
+    "category": "portraits"
+  },
+  {
+    "name": "_DSC0947",
+    "src": "/gallery/portraits/_DSC0947.jpg",
+    "type": "image",
+    "category": "portraits"
   },
   {
     "name": "_DSC9635",
