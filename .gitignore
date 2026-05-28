@@ -20,6 +20,9 @@
 # production
 /build
 
+# local full-resolution media backups
+/gallery-originals/
+
 # misc
 .DS_Store
 *.pem

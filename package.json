@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "gallery:manifest": "node scripts/generate-gallery-manifest.mjs",
+    "gallery:optimize": "node scripts/optimize-gallery-images.mjs",
     "gallery:previews": "node scripts/generate-gallery-previews.mjs"
   },
   "dependencies": {

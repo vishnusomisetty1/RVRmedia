@@ -5,19 +5,19 @@ import { useEffect, useState } from 'react';
 
 const HERO_IMAGES = [
   {
-    src: '/gallery/_DSC9302.jpg',
+    src: '/gallery/events/_DSC9302.jpg',
     alt: 'Cinematic private event moment',
   },
   {
-    src: '/gallery/_DSC9499.jpg',
+    src: '/gallery/events/_DSC9499.jpg',
     alt: 'Event portrait in a warm lounge setting',
   },
   {
-    src: '/gallery/_DSC9526.jpg',
+    src: '/gallery/events/_DSC9526.jpg',
     alt: 'Candid event coverage moment',
   },
   {
-    src: '/gallery/DSC09348.jpg',
+    src: '/gallery/portraits/DSC09348.jpg',
     alt: 'Large group portrait at a private event',
   },
 ];

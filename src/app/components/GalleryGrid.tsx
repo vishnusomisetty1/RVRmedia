@@ -49,14 +49,6 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
             >
               <GalleryMedia item={item} priority={index < 3} />
               <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/35" />
-              <div className="absolute inset-x-0 bottom-0 translate-y-3 p-5 text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                <p className="text-lg font-semibold">
-                  {formatTitle(item.name)}
-                </p>
-                <p className="mt-1 text-sm text-white/75">
-                  {getItemLabel(item)}
-                </p>
-              </div>
             </button>
           </article>
         ))}

@@ -10,6 +10,21 @@ const manifestPath = path.join(
   'gallery-manifest.json',
 );
 
+const categories = [
+  {
+    id: 'events',
+    folder: 'events',
+  },
+  {
+    id: 'portraits',
+    folder: 'portraits',
+  },
+  {
+    id: 'creative',
+    folder: 'creative',
+  },
+];
+
 const imageExtensions = new Set([
   '.jpg',
   '.jpeg',
@@ -22,52 +37,68 @@ const videoExtensions = new Set(['.mp4', '.mov', '.webm']);
 const rawExtensions = new Set(['.arw']);
 
 async function main() {
-  const entries = await fs.readdir(galleryDir, { withFileTypes: true });
   const previewFiles = await getPreviewFiles();
   const items = [];
 
-  for (const entry of entries) {
-    if (!entry.isFile()) {
-      continue;
-    }
+  for (const category of categories) {
+    const categoryDir = path.join(galleryDir, category.folder);
+    await fs.mkdir(categoryDir, { recursive: true });
 
-    const extension = path.extname(entry.name).toLowerCase();
-    const basename = path.basename(entry.name, extension);
+    const entries = await fs.readdir(categoryDir, { withFileTypes: true });
 
-    if (imageExtensions.has(extension)) {
-      items.push({
-        name: basename,
-        src: `/gallery/${entry.name}`,
-        type: 'image',
-      });
-      continue;
-    }
+    for (const entry of entries) {
+      if (!entry.isFile()) {
+        continue;
+      }
 
-    if (videoExtensions.has(extension)) {
-      items.push({
-        name: basename,
-        src: `/gallery/${entry.name}`,
-        type: 'video',
-      });
-      continue;
-    }
+      const extension = path.extname(entry.name).toLowerCase();
+      const basename = path.basename(entry.name, extension);
+      const src = `/gallery/${category.folder}/${entry.name}`;
 
-    if (rawExtensions.has(extension)) {
-      const previewName = `${basename}.jpg`;
-      const hasPreview = previewFiles.has(previewName);
+      if (imageExtensions.has(extension)) {
+        items.push({
+          name: basename,
+          src,
+          type: 'image',
+          category: category.id,
+        });
+        continue;
+      }
 
-      items.push({
-        name: basename,
-        src: `/gallery/${entry.name}`,
-        type: 'raw',
-        ...(hasPreview
-          ? { previewSrc: `/gallery/previews/${previewName}` }
-          : {}),
-      });
+      if (videoExtensions.has(extension)) {
+        items.push({
+          name: basename,
+          src,
+          type: 'video',
+          category: category.id,
+        });
+        continue;
+      }
+
+      if (rawExtensions.has(extension)) {
+        const previewName = `${basename}.jpg`;
+        const hasPreview = previewFiles.has(previewName);
+
+        items.push({
+          name: basename,
+          src,
+          type: 'raw',
+          category: category.id,
+          ...(hasPreview
+            ? { previewSrc: `/gallery/previews/${previewName}` }
+            : {}),
+        });
+      }
     }
   }
 
-  items.sort((a, b) => a.name.localeCompare(b.name));
+  items.sort((a, b) => {
+    if (a.category !== b.category) {
+      return a.category.localeCompare(b.category);
+    }
+
+    return a.name.localeCompare(b.name);
+  });
 
   await fs.mkdir(path.dirname(manifestPath), { recursive: true });
   await fs.writeFile(manifestPath, `${JSON.stringify(items, null, 2)}\n`);

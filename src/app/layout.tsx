@@ -17,7 +17,8 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL('https://rvrmedia.vercel.app'),
   title: 'RVR Media',
-  description: 'Professional Photography and Videography Services',
+  description:
+    'Photo and video coverage for events, portraits, and creative lifestyle shoots.',
   icons: {
     icon: '/favicon.ico',
   },
@@ -25,7 +26,8 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://rvrmedia.vercel.app',
     title: 'RVR Media',
-    description: 'Professional Photography and Videography Services',
+    description:
+      'Photo and video coverage for events, portraits, and creative lifestyle shoots.',
     siteName: 'RVR Media',
     images: [
       {
@@ -38,7 +40,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'RVR Media',
-    description: 'Professional Photography and Videography Services',
+    description:
+      'Photo and video coverage for events, portraits, and creative lifestyle shoots.',
     images: ['/favicon.ico'],
   },
 };

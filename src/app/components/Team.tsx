@@ -2,11 +2,16 @@ import Image from 'next/image';
 
 export default function Team() {
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="about" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold mb-12 text-center text-black">
-          Meet Our Team
-        </h2>
+        <div className="mb-12 text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-black/50">
+            About
+          </p>
+          <h2 className="mt-3 text-3xl font-bold text-black md:text-4xl">
+            Meet RVR Media
+          </h2>
+        </div>
 
         <div className="mb-16 flex flex-col items-center justify-center gap-12 md:flex-row">
           <div className="flex flex-col items-center">
@@ -40,7 +45,8 @@ export default function Team() {
           </div>
         </div>
 
-        <div className="text-center">
+        <div id="contact" className="scroll-mt-24 text-center">
+          <h3 className="mb-5 text-2xl font-bold text-black">Contact</h3>
           <p className="text-lg text-black mb-2">
             Gmail:{' '}
             <a
