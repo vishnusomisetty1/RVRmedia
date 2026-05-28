@@ -77,15 +77,17 @@ export default function PortfolioBrowser({
             className="group overflow-hidden rounded-lg border border-black/10 bg-black text-left text-white transition-transform duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-4 focus-visible:ring-black/25"
           >
             <div
-              className="h-52 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+              className="relative h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
               style={
                 coverImage
                   ? { backgroundImage: `url(${coverImage})` }
                   : undefined
               }
-            />
-            <div className="p-5">
-              <h3 className="text-xl font-bold">{category.title}</h3>
+            >
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.68)_0%,rgba(0,0,0,0.22)_42%,rgba(0,0,0,0.08)_100%)]" />
+              <h3 className="absolute left-5 top-5 text-2xl font-bold tracking-normal text-white">
+                {category.title}
+              </h3>
             </div>
           </button>
         );
