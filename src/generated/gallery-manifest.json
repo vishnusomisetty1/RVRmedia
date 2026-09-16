@@ -3,108 +3,144 @@
     "name": "_DSC0171-2",
     "src": "/gallery/creative/_DSC0171-2.jpg",
     "type": "image",
-    "category": "creative"
+    "category": "creative",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC0661",
     "src": "/gallery/creative/_DSC0661.jpg",
     "type": "image",
-    "category": "creative"
+    "category": "creative",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC0838",
     "src": "/gallery/creative/_DSC0838.jpg",
     "type": "image",
-    "category": "creative"
+    "category": "creative",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC0884",
     "src": "/gallery/creative/_DSC0884.jpg",
     "type": "image",
-    "category": "creative"
+    "category": "creative",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC9473",
     "src": "/gallery/creative/_DSC9473.jpg",
     "type": "image",
-    "category": "creative"
+    "category": "creative",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC1671",
     "src": "/gallery/events/_DSC1671.jpg",
     "type": "image",
-    "category": "events"
+    "category": "events",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC9038",
     "src": "/gallery/events/_DSC9038.jpg",
     "type": "image",
-    "category": "events"
+    "category": "events",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC9302",
     "src": "/gallery/events/_DSC9302.jpg",
     "type": "image",
-    "category": "events"
+    "category": "events",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC9484",
     "src": "/gallery/events/_DSC9484.jpg",
     "type": "image",
-    "category": "events"
+    "category": "events",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC9499",
     "src": "/gallery/events/_DSC9499.jpg",
     "type": "image",
-    "category": "events"
+    "category": "events",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC9526",
     "src": "/gallery/events/_DSC9526.jpg",
     "type": "image",
-    "category": "events"
+    "category": "events",
+    "width": 2048,
+    "height": 1365
   },
   {
     "name": "_DSC0794",
     "src": "/gallery/portraits/_DSC0794.jpg",
     "type": "image",
-    "category": "portraits"
+    "category": "portraits",
+    "width": 1600,
+    "height": 2400
   },
   {
     "name": "_DSC0843",
     "src": "/gallery/portraits/_DSC0843.jpg",
     "type": "image",
-    "category": "portraits"
+    "category": "portraits",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC0912",
     "src": "/gallery/portraits/_DSC0912.jpg",
     "type": "image",
-    "category": "portraits"
+    "category": "portraits",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC0947",
     "src": "/gallery/portraits/_DSC0947.jpg",
     "type": "image",
-    "category": "portraits"
+    "category": "portraits",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC9635",
     "src": "/gallery/portraits/_DSC9635.jpg",
     "type": "image",
-    "category": "portraits"
+    "category": "portraits",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "_DSC9770",
     "src": "/gallery/portraits/_DSC9770.jpg",
     "type": "image",
-    "category": "portraits"
+    "category": "portraits",
+    "width": 2400,
+    "height": 1600
   },
   {
     "name": "DSC09348",
     "src": "/gallery/portraits/DSC09348.jpg",
     "type": "image",
-    "category": "portraits"
+    "category": "portraits",
+    "width": 2400,
+    "height": 1600
   }
 ]

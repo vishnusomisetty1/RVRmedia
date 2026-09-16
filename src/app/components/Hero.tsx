@@ -84,10 +84,12 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute inset-0 bg-black/60" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0.2)_48%,rgba(0,0,0,0.65)_100%)]" />
+      {/* Keep the photos bright: darken only behind the text and at the edges. */}
+      <div className="absolute inset-0 bg-black/15" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_center,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0)_22%,rgba(0,0,0,0)_70%,rgba(0,0,0,0.45)_100%)]" />
 
-      <div className="relative z-10 mx-auto max-w-4xl text-center text-white">
+      <div className="relative z-10 mx-auto max-w-4xl text-center text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">
         <p className="text-sm font-semibold uppercase tracking-[0.35em] text-white/70">
           RVR Media
         </p>

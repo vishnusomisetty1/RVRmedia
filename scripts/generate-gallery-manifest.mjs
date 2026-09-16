@@ -61,6 +61,7 @@ async function main() {
           src,
           type: 'image',
           category: category.id,
+          ...(await getImageSize(path.join(categoryDir, entry.name))),
         });
         continue;
       }
@@ -85,7 +86,10 @@ async function main() {
           type: 'raw',
           category: category.id,
           ...(hasPreview
-            ? { previewSrc: `/gallery/previews/${previewName}` }
+            ? {
+                previewSrc: `/gallery/previews/${previewName}`,
+                ...(await getImageSize(path.join(previewDir, previewName))),
+              }
             : {}),
         });
       }
@@ -104,6 +108,51 @@ async function main() {
   await fs.writeFile(manifestPath, `${JSON.stringify(items, null, 2)}\n`);
 
   console.log(`Generated gallery manifest with ${items.length} items.`);
+}
+
+// Reads pixel dimensions from JPEG/PNG headers so the gallery can reserve the
+// right space for each photo. Pure Node, so it also works in Linux builds.
+async function getImageSize(filePath) {
+  try {
+    const buffer = await fs.readFile(filePath);
+
+    if (buffer.toString('ascii', 1, 4) === 'PNG') {
+      return {
+        width: buffer.readUInt32BE(16),
+        height: buffer.readUInt32BE(20),
+      };
+    }
+
+    if (buffer[0] === 0xff && buffer[1] === 0xd8) {
+      let offset = 2;
+
+      while (offset < buffer.length) {
+        if (buffer[offset] !== 0xff) {
+          offset += 1;
+          continue;
+        }
+
+        const marker = buffer[offset + 1];
+        const isStartOfFrame =
+          marker >= 0xc0 &&
+          marker <= 0xcf &&
+          ![0xc4, 0xc8, 0xcc].includes(marker);
+
+        if (isStartOfFrame) {
+          return {
+            width: buffer.readUInt16BE(offset + 7),
+            height: buffer.readUInt16BE(offset + 5),
+          };
+        }
+
+        offset += 2 + buffer.readUInt16BE(offset + 2);
+      }
+    }
+  } catch {
+    // Fall through: the gallery uses a default shape when size is unknown.
+  }
+
+  return {};
 }
 
 async function getPreviewFiles() {

@@ -43,7 +43,7 @@ body {
 
 @keyframes heroFadeZoom {
   0% {
-    opacity: 0.2;
+    opacity: 0.85;
     transform: scale(1);
   }
 

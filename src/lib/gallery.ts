@@ -27,6 +27,8 @@ export type GalleryItem = {
   type: 'image' | 'video' | 'raw';
   category: PortfolioCategoryId;
   previewSrc?: string;
+  width?: number;
+  height?: number;
 };
 
 export function getGalleryItems(): GalleryItem[] {

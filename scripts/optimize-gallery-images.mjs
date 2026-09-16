@@ -45,6 +45,11 @@ for (const file of imageFiles) {
 
   const before = statSync(inputPath).size;
 
+  if (getLongestSide(inputPath) <= Number(maxPixels)) {
+    console.log(`Skipped ${file}; already web-sized.`);
+    continue;
+  }
+
   try {
     execFileSync(
       'sips',
@@ -109,6 +114,23 @@ function getImageFiles(directory, baseDirectory = directory) {
   }
 
   return files;
+}
+
+function getLongestSide(filePath) {
+  try {
+    const output = execFileSync(
+      'sips',
+      ['-g', 'pixelWidth', '-g', 'pixelHeight', filePath],
+      { encoding: 'utf8' },
+    );
+    const sizes = [...output.matchAll(/pixel(?:Width|Height):\s*(\d+)/g)].map(
+      (match) => Number(match[1]),
+    );
+
+    return sizes.length === 2 ? Math.max(...sizes) : Infinity;
+  } catch {
+    return Infinity;
+  }
 }
 
 function formatMegabytes(bytes) {
