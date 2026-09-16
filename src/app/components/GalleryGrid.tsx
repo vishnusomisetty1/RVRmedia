@@ -133,7 +133,7 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
                   <button
                     type="button"
                     onClick={() => setActiveIndex(index)}
-                    className="relative block w-full cursor-zoom-in overflow-hidden text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-black/30"
+                    className="relative block w-full cursor-zoom-in overflow-hidden text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40"
                     style={{ aspectRatio: getAspectRatio(item) }}
                     aria-label={`Open ${formatTitle(item.name)} preview`}
                   >

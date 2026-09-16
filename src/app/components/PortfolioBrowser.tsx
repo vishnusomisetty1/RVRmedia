@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 
 import type { GalleryItem, PortfolioCategoryId } from '@/lib/gallery';
@@ -43,15 +44,15 @@ export default function PortfolioBrowser({
     return (
       <div>
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-2xl font-bold text-black md:text-3xl">
+          <h3 className="font-display text-3xl font-semibold text-cream md:text-4xl">
             {activeCategory.title}
           </h3>
           <button
             type="button"
             onClick={() => setActiveCategoryId(null)}
-            className="inline-flex w-fit rounded-full border border-black/15 px-5 py-2 text-sm font-semibold text-black transition-colors hover:bg-black hover:text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-black/25"
+            className="inline-flex w-fit rounded-full border border-cream/25 px-5 py-2 text-sm font-semibold text-cream transition-colors hover:bg-cream hover:text-ink focus:outline-none focus-visible:ring-4 focus-visible:ring-cream/30"
           >
-            Exit
+            ← All categories
           </button>
         </div>
 
@@ -74,20 +75,25 @@ export default function PortfolioBrowser({
             key={category.title}
             type="button"
             onClick={() => setActiveCategoryId(category.id)}
-            className="group overflow-hidden rounded-lg border border-black/10 bg-black text-left text-white transition-transform duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-4 focus-visible:ring-black/25"
+            className="group relative h-72 overflow-hidden rounded-lg border border-cream/10 bg-surface text-left text-cream transition-transform duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40"
           >
-            <div
-              className="relative h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-              style={
-                coverImage
-                  ? { backgroundImage: `url(${coverImage})` }
-                  : undefined
-              }
-            >
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.68)_0%,rgba(0,0,0,0.22)_42%,rgba(0,0,0,0.08)_100%)]" />
-              <h3 className="absolute left-5 top-5 text-2xl font-bold tracking-normal text-white">
+            {coverImage ? (
+              <Image
+                src={coverImage}
+                alt=""
+                fill
+                sizes="(min-width: 768px) 33vw, 100vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            ) : null}
+            <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(0,0,0,0.75)_0%,rgba(0,0,0,0.15)_55%,rgba(0,0,0,0.05)_100%)]" />
+            <div className="absolute inset-x-5 bottom-5">
+              <h3 className="font-display text-3xl font-semibold">
                 {category.title}
               </h3>
+              <p className="mt-1 text-sm text-cream/70">
+                {categoryItems.length} photos · View →
+              </p>
             </div>
           </button>
         );

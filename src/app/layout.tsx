@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
+import { Cormorant_Garamond } from 'next/font/google';
 import localFont from 'next/font/local';
+import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import './globals.css';
 
@@ -13,6 +15,19 @@ const geistMono = localFont({
   variable: '--font-geist-mono',
   weight: '100 900',
 });
+const display = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-display',
+});
+
+const SHARE_IMAGE = {
+  url: '/gallery/events/_DSC9302.jpg',
+  width: 2400,
+  height: 1600,
+  alt: 'Guests dancing at a private event photographed by RVR Media',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rvrmedia.vercel.app'),
@@ -29,20 +44,14 @@ export const metadata: Metadata = {
     description:
       'Photo and video coverage for events, portraits, and creative lifestyle shoots.',
     siteName: 'RVR Media',
-    images: [
-      {
-        url: '/favicon.ico',
-        width: 800,
-        height: 600,
-      },
-    ],
+    images: [SHARE_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'RVR Media',
     description:
       'Photo and video coverage for events, portraits, and creative lifestyle shoots.',
-    images: ['/favicon.ico'],
+    images: [SHARE_IMAGE.url],
   },
 };
 
@@ -54,10 +63,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${display.variable} bg-ink text-cream antialiased`}
       >
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

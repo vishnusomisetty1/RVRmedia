@@ -9,13 +9,13 @@ export default async function Gallery() {
   }
 
   return (
-    <section id="portfolio" className="bg-white py-20">
+    <section id="portfolio" className="bg-ink py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-10 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-black/50">
+        <div className="mb-12 text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-gold">
             Portfolio
           </p>
-          <h2 className="mt-3 text-3xl font-bold text-black md:text-4xl">
+          <h2 className="mt-3 font-display text-4xl font-semibold text-cream md:text-6xl">
             Events, Portraits, and Candid Work
           </h2>
         </div>

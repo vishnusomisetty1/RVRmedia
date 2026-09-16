@@ -90,10 +90,10 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0)_22%,rgba(0,0,0,0)_70%,rgba(0,0,0,0.45)_100%)]" />
 
       <div className="relative z-10 mx-auto max-w-4xl text-center text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">
-        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-white/70">
+        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cream/85">
           RVR Media
         </p>
-        <h1 className="mt-5 text-4xl font-bold leading-tight sm:text-5xl md:text-7xl">
+        <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.05] sm:text-6xl md:text-8xl">
           Capture Your Moments. Relive Them Forever.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/85 md:text-xl">
@@ -102,7 +102,7 @@ export default function Hero() {
         </p>
         <a
           href="#contact"
-          className="mt-9 inline-flex rounded-full bg-white px-8 py-3 text-sm font-semibold text-black transition-colors hover:bg-white/85"
+          className="mt-9 inline-flex rounded-full bg-gold px-8 py-3 text-sm font-semibold text-ink transition-colors hover:bg-cream [text-shadow:none]"
         >
           Get in Touch
         </a>

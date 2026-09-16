@@ -1,72 +1,68 @@
 import Image from 'next/image';
 
+const TEAM = [
+  { name: 'Vishnu Somisetty', photo: '/profilepic/Vishnu(temp).png' },
+  { name: 'Rishan Kundharaju', photo: '/profilepic/Rishan.png' },
+];
+
 export default function Team() {
   return (
-    <section id="about" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-black/50">
+    <section id="about" className="scroll-mt-16 bg-ink py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-14 text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-gold">
             About
           </p>
-          <h2 className="mt-3 text-3xl font-bold text-black md:text-4xl">
+          <h2 className="mt-3 font-display text-4xl font-semibold text-cream md:text-6xl">
             Meet RVR Media
           </h2>
         </div>
 
-        <div className="mb-16 flex flex-col items-center justify-center gap-12 md:flex-row">
-          <div className="flex flex-col items-center">
-            <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
-              <Image
-                src="/profilepic/Vishnu(temp).png"
-                alt="Vishnu Somisetty"
-                width={192}
-                height={192}
-                className="w-full h-full object-cover"
-              />
+        <div className="mb-24 flex flex-col items-center justify-center gap-12 md:flex-row md:gap-20">
+          {TEAM.map((member) => (
+            <div key={member.name} className="flex flex-col items-center">
+              <div className="mb-5 h-36 w-36 overflow-hidden rounded-full border border-gold/40 p-1 md:h-48 md:w-48">
+                <Image
+                  src={member.photo}
+                  alt={member.name}
+                  width={192}
+                  height={192}
+                  className="h-full w-full rounded-full object-cover"
+                />
+              </div>
+              <h3 className="font-display text-2xl font-semibold text-cream md:text-3xl">
+                {member.name}
+              </h3>
             </div>
-            <h3 className="text-lg md:text-xl font-semibold text-black">
-              Vishnu Somisetty
-            </h3>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden mb-4 border-2 border-black/10">
-              <Image
-                src="/profilepic/Rishan.png"
-                alt="Rishan Kundharaju"
-                width={192}
-                height={192}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <h3 className="text-lg md:text-xl font-semibold text-black">
-              Rishan Kundharaju
-            </h3>
-          </div>
+          ))}
         </div>
 
-        <div id="contact" className="scroll-mt-24 text-center">
-          <h3 className="mb-5 text-2xl font-bold text-black">Contact</h3>
-          <p className="text-lg text-black mb-2">
-            Gmail:{' '}
+        <div
+          id="contact"
+          className="scroll-mt-24 rounded-lg border border-cream/10 bg-surface px-6 py-12 text-center"
+        >
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-gold">
+            Contact
+          </p>
+          <h3 className="mt-3 font-display text-3xl font-semibold text-cream md:text-5xl">
+            Let&apos;s plan your shoot
+          </h3>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href="mailto:rvr.mediaco@gmail.com"
-              className="text-blue-400 hover:underline"
+              className="inline-flex rounded-full bg-gold px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-cream focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40"
             >
               rvr.mediaco@gmail.com
             </a>
-          </p>
-          <p className="text-lg text-black">
-            Instagram:{' '}
             <a
               href="https://www.instagram.com/rvr_mediaco/profilecard"
-              className="text-blue-400 hover:underline"
               target="_blank"
               rel="noopener noreferrer"
+              className="inline-flex rounded-full border border-cream/25 px-6 py-3 text-sm font-semibold text-cream transition-colors hover:bg-cream hover:text-ink focus:outline-none focus-visible:ring-4 focus-visible:ring-cream/30"
             >
-              @rvr_mediaco
+              Instagram @rvr_mediaco
             </a>
-          </p>
+          </div>
         </div>
       </div>
     </section>
