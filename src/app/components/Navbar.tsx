@@ -42,12 +42,15 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Desktop: centered links */}
         <div className="hidden h-16 items-center justify-center md:flex">
-          <div className="flex gap-x-12 text-base font-bold">
+          <div className="flex gap-x-10 text-xs font-semibold uppercase tracking-[0.25em]">
             {LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-cream/85 transition-colors hover:text-gold"
+                aria-current={link.href === pathname ? 'page' : undefined}
+                className={`transition-colors hover:text-orchid ${
+                  link.href === pathname ? 'text-orchid' : 'text-cream/70'
+                }`}
               >
                 {link.label}
               </Link>
@@ -59,7 +62,7 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between md:hidden">
           <Link
             href="/"
-            className="font-display text-2xl font-semibold text-cream"
+            className="font-display text-2xl font-normal tracking-wide text-cream"
           >
             RVR Media
           </Link>
@@ -69,7 +72,7 @@ export default function Navbar() {
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
-            className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-cream transition-colors hover:bg-cream/10 focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40"
+            className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-cream transition-colors hover:bg-cream/10 focus:outline-none focus-visible:ring-4 focus-visible:ring-orchid/40"
           >
             <svg
               viewBox="0 0 24 24"
@@ -101,7 +104,10 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="block border-b border-cream/10 py-4 text-lg font-semibold text-cream/85 transition-colors hover:text-gold"
+                  aria-current={link.href === pathname ? 'page' : undefined}
+                  className={`block border-b border-cream/10 py-4 text-sm font-semibold uppercase tracking-[0.2em] transition-colors hover:text-orchid ${
+                    link.href === pathname ? 'text-orchid' : 'text-cream/80'
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -111,7 +117,7 @@ export default function Navbar() {
           <Link
             href="/booking"
             onClick={() => setIsOpen(false)}
-            className="mt-6 flex justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-cream"
+            className="mt-6 flex justify-center rounded-full bg-violet px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-cream transition-colors hover:bg-violet-dark"
           >
             Book a Shoot
           </Link>

@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --background: #0e0c0a;
-  --foreground: #f3ede4;
+  --background: #110a16;
+  --foreground: #f3eaf3;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 @keyframes galleryFadeUp {
@@ -30,33 +30,154 @@ body {
   animation: galleryFadeUp 650ms ease forwards;
 }
 
-.hero-slide-image {
-  animation: heroFadeZoom 8000ms ease-out infinite;
-}
-
-@keyframes heroFadeZoom {
-  0% {
-    opacity: 0.85;
-    transform: scale(1);
-  }
-
-  18% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1.08);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .gallery-card {
     opacity: 1;
     animation: none;
   }
+}
 
-  .hero-slide-image {
+@keyframes stepIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-panel {
+  animation: stepIn 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step-panel {
     animation: none;
+  }
+}
+
+/* --- Entrance animations ------------------------------------------------ */
+
+/* Words rise out from behind a mask, so the headline assembles itself. */
+@keyframes wordRise {
+  from {
+    opacity: 0;
+    transform: translateY(100%) rotate(2deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rulerGrow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes scrollBob {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: translateY(7px);
+    opacity: 1;
+  }
+}
+
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* Room for descenders, which overflow: hidden would otherwise clip. */
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+
+.word-rise {
+  display: inline-block;
+  animation: wordRise 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Scroll-driven variant: starts below the mask, lifts when .is-visible lands. */
+.word-scroll {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(105%);
+  transition:
+    transform 950ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 700ms ease;
+}
+
+.word-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rise-in {
+  animation: riseIn 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ruler-grow {
+  transform-origin: center;
+  animation: rulerGrow 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.scroll-cue {
+  animation: scrollBob 2200ms ease-in-out infinite;
+}
+
+/* Scroll-triggered reveals: hidden until <Reveal> adds .is-visible. */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+  transition:
+    opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word-rise,
+  .rise-in,
+  .ruler-grow,
+  .scroll-cue {
+    animation: none;
+  }
+
+  .reveal,
+  .word-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

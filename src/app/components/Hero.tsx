@@ -1,110 +1,72 @@
-'use client';
+// Type-only hero on flat ink. The photography lives in the film strip
+// directly below, so nothing competes with the headline for attention.
+const HEADLINE = 'Capture Your Moments. Relive Them Forever.'.split(' ');
 
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-
-const HERO_IMAGES = [
-  {
-    src: '/gallery/events/_DSC9302.jpg',
-    alt: 'Cinematic private event moment',
-  },
-  {
-    src: '/gallery/events/_DSC9499.jpg',
-    alt: 'Event portrait in a warm lounge setting',
-  },
-  {
-    src: '/gallery/events/_DSC9526.jpg',
-    alt: 'Candid event coverage moment',
-  },
-  {
-    src: '/gallery/portraits/DSC09348.jpg',
-    alt: 'Large group portrait at a private event',
-  },
-];
-
-const SLIDES = [...HERO_IMAGES, HERO_IMAGES[0]];
+const LAST_WORD_DELAY = 480 + HEADLINE.length * 90;
 
 export default function Hero() {
-  const [activeImage, setActiveImage] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(true);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setIsTransitioning(true);
-      setActiveImage((currentImage) => currentImage + 1);
-    }, 8000);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (isTransitioning || activeImage !== 0) {
-      return;
-    }
-
-    const frame = window.requestAnimationFrame(() => {
-      setIsTransitioning(true);
-    });
-
-    return () => window.cancelAnimationFrame(frame);
-  }, [activeImage, isTransitioning]);
-
   return (
-    <section className="relative flex min-h-[92vh] items-center justify-center overflow-hidden bg-black px-4 py-24">
-      <div className="absolute inset-0">
-        <div
-          className={`flex h-full ${
-            isTransitioning
-              ? 'transition-transform duration-[1400ms] ease-in-out'
-              : ''
-          }`}
-          style={{ transform: `translateX(-${activeImage * 100}%)` }}
-          onTransitionEnd={() => {
-            if (activeImage === HERO_IMAGES.length) {
-              setIsTransitioning(false);
-              setActiveImage(0);
-            }
-          }}
+    <section className="relative flex min-h-[78vh] items-center justify-center overflow-hidden bg-ink px-4 py-24">
+      <div className="relative z-10 mx-auto max-w-4xl text-center text-cream">
+        <p
+          className="rise-in text-sm font-semibold uppercase tracking-[0.35em] text-orchid"
+          style={{ animationDelay: '120ms' }}
         >
-          {SLIDES.map((image, index) => (
-            <div
-              key={`${image.src}-${index}`}
-              className="relative h-full min-w-full overflow-hidden"
-            >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                priority={index === 0}
-                sizes="100vw"
-                className="hero-slide-image object-cover"
-              />
-            </div>
+          RVR Media
+        </p>
+
+        <span
+          aria-hidden
+          className="ruler-grow mx-auto mt-4 block h-px w-16 bg-orchid/70"
+          style={{ animationDelay: '320ms' }}
+        />
+
+        {/* Each word rides up from behind its own mask, one after another. */}
+        <h1 className="mt-5 font-display text-5xl font-normal leading-[1.05] sm:text-6xl md:text-8xl">
+          {HEADLINE.map((word, index) => (
+            <span key={`${word}-${index}`}>
+              <span className="word-mask">
+                <span
+                  className="word-rise"
+                  style={{ animationDelay: `${480 + index * 90}ms` }}
+                >
+                  {word}
+                </span>
+              </span>
+              {index < HEADLINE.length - 1 ? ' ' : null}
+            </span>
           ))}
+        </h1>
+
+        <p
+          className="rise-in mx-auto mt-6 max-w-2xl text-lg leading-8 text-cream/65 md:text-xl"
+          style={{ animationDelay: `${LAST_WORD_DELAY + 120}ms` }}
+        >
+          Professional photo and video coverage for birthdays, weddings, private
+          events, and more.
+        </p>
+
+        <div
+          className="rise-in"
+          style={{ animationDelay: `${LAST_WORD_DELAY + 280}ms` }}
+        >
+          <a
+            href="#contact"
+            className="mt-9 inline-flex rounded-full bg-violet px-8 py-3 text-sm font-semibold text-cream transition-all duration-300 hover:bg-violet-dark"
+          >
+            Get in Touch
+          </a>
         </div>
       </div>
 
-      {/* Keep the photos bright: darken only behind the text and at the edges. */}
-      <div className="absolute inset-0 bg-black/15" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_center,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0)_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0)_22%,rgba(0,0,0,0)_70%,rgba(0,0,0,0.45)_100%)]" />
-
-      <div className="relative z-10 mx-auto max-w-4xl text-center text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">
-        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cream/85">
-          RVR Media
-        </p>
-        <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.05] sm:text-6xl md:text-8xl">
-          Capture Your Moments. Relive Them Forever.
-        </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/85 md:text-xl">
-          Professional photo and video coverage for birthdays, weddings,
-          private events, and more.
-        </p>
+      <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2">
         <a
-          href="#contact"
-          className="mt-9 inline-flex rounded-full bg-gold px-8 py-3 text-sm font-semibold text-ink transition-colors hover:bg-cream [text-shadow:none]"
+          href="#services"
+          aria-label="Scroll to services"
+          className="rise-in block text-cream/50 transition-colors hover:text-orchid"
+          style={{ animationDelay: `${LAST_WORD_DELAY + 520}ms` }}
         >
-          Get in Touch
+          <span className="scroll-cue block text-2xl leading-none">&darr;</span>
         </a>
       </div>
     </section>

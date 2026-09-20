@@ -1,25 +1,23 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Bodoni_Moda, Lato } from 'next/font/google';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import './globals.css';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
-const display = Cormorant_Garamond({
+// Lato is a humanist sans: narrower, slightly warm, and calm enough to sit
+// under a didone. Bodoni Moda gives the headings their thick/thin contrast.
+const sans = Lato({
   subsets: ['latin'],
-  weight: ['500', '600', '700'],
+  weight: ['300', '400', '700', '900'],
+  style: ['normal', 'italic'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+const display = Bodoni_Moda({
+  subsets: ['latin'],
   style: ['normal', 'italic'],
   variable: '--font-display',
+  display: 'swap',
 });
 
 const SHARE_IMAGE = {
@@ -62,8 +60,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* Extensions such as Grammarly inject attributes onto <body> before
+          React hydrates, which React otherwise reports as a mismatch. */}
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${display.variable} bg-ink text-cream antialiased`}
+        suppressHydrationWarning
+        className={`${sans.variable} ${display.variable} bg-ink text-cream antialiased`}
       >
         <Navbar />
         {children}
