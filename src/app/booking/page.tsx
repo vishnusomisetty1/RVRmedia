@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const ASSURANCES = [
   {
     title: 'Reply in 1-2 days',
-    body: 'Every inquiry is read by Rishi, Vishnu, or Rishan directly.',
+    body: 'Every inquiry is read by Vishnu directly.',
   },
   {
     title: 'No obligation',
