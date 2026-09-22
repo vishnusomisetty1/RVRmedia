@@ -19,6 +19,23 @@
 const SHEET_NAME = 'Website Inquiries';
 const NOTIFY_EMAIL = 'Rvr.mediaco@gmail.com';
 
+/**
+ * Leave blank if this script was created from inside the Sheet
+ * (Extensions -> Apps Script) — it will find the Sheet on its own.
+ *
+ * If it was created standalone from script.google.com, paste the Sheet's ID
+ * here. It is the long string in the Sheet's URL between /d/ and /edit:
+ *   docs.google.com/spreadsheets/d/THIS_PART_HERE/edit
+ */
+const SPREADSHEET_ID = '';
+
+/**
+ * Shared secret. The web app has to be readable by "Anyone" for the site's
+ * server to reach it, so this is what actually distinguishes a real
+ * submission from anyone who happens to learn the URL.
+ */
+const SHARED_SECRET = 'Hn4X66Srzeq-YeRD1wkdKmCfSdil_Mcv';
+
 const COLUMNS = [
   'Submitted',
   'Name',
@@ -45,6 +62,11 @@ const COLUMNS = [
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
+
+    if (!SHARED_SECRET || data.secret !== SHARED_SECRET) {
+      return json_({ ok: false, error: 'Unauthorized' });
+    }
+
     const sheet = getSheet_();
 
     sheet.appendRow([
@@ -82,7 +104,17 @@ function doGet() {
 }
 
 function getSheet_() {
-  const book = SpreadsheetApp.getActiveSpreadsheet();
+  const book = SPREADSHEET_ID
+    ? SpreadsheetApp.openById(SPREADSHEET_ID)
+    : SpreadsheetApp.getActiveSpreadsheet();
+
+  if (!book) {
+    throw new Error(
+      'No spreadsheet found. This script is not bound to a Sheet, so set ' +
+        'SPREADSHEET_ID at the top of this file.',
+    );
+  }
+
   let sheet = book.getSheetByName(SHEET_NAME);
 
   if (!sheet) {

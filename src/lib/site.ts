@@ -4,8 +4,6 @@ export const SITE_NAME = 'RVR Media';
 
 export const CONTACT_EMAIL = 'rvr.mediaco@gmail.com';
 
-export const INSTAGRAM_URL = 'https://www.instagram.com/rvr_mediaco/';
-
 export const SERVICE_AREA = 'New Jersey';
 
 /**
@@ -40,7 +38,6 @@ export const localBusinessJsonLd = {
     '@type': 'State',
     name: 'New Jersey',
   },
-  sameAs: [INSTAGRAM_URL],
   knowsAbout: [
     'Event photography',
     'Wedding reception photography',

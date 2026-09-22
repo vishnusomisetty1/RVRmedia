@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import Reveal from './Reveal';
 import RevealText from './RevealText';
 
@@ -68,14 +69,12 @@ export default function Team() {
               >
                 rvr.mediaco@gmail.com
               </a>
-              <a
-                href="https://www.instagram.com/rvr_mediaco/profilecard"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/booking"
                 className="inline-flex rounded-full border border-orchid/35 px-6 py-3 text-sm font-semibold text-cream/90 transition-colors hover:border-orchid/70 hover:bg-orchid/10 focus:outline-none focus-visible:ring-4 focus-visible:ring-orchid/40"
               >
-                Instagram @rvr_mediaco
-              </a>
+                Book a shoot
+              </Link>
             </div>
           </div>
         </Reveal>

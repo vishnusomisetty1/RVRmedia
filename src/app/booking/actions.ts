@@ -34,6 +34,9 @@ export async function submitBooking(
     read('referral') === 'Other' ? read('referralOther') || 'Other' : read('referral');
 
   const payload = {
+    // Proves the request came from this site, not from anyone who found
+    // the endpoint URL.
+    secret: process.env.BOOKING_WEBHOOK_SECRET ?? '',
     name: read('name'),
     phone: read('phone'),
     email: read('email'),
