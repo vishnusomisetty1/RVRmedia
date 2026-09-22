@@ -42,8 +42,8 @@ export default function Hero() {
           className="rise-in mx-auto mt-6 max-w-2xl text-lg leading-8 text-cream/65 md:text-xl"
           style={{ animationDelay: `${LAST_WORD_DELAY + 120}ms` }}
         >
-          Professional photo and video coverage for birthdays, weddings, private
-          events, and more.
+          Professional photo and video coverage for birthdays, weddings, and
+          private events across New Jersey.
         </p>
 
         <div

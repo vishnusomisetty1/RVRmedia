@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Bodoni_Moda, Lato } from 'next/font/google';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import { localBusinessJsonLd, SITE_URL } from '@/lib/site';
 import './globals.css';
 
 // Lato is a humanist sans: narrower, slightly warm, and calm enough to sit
@@ -28,16 +31,23 @@ const SHARE_IMAGE = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://rvrmedia.vercel.app'),
-  title: 'RVR Media',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'RVR Media | New Jersey Event & Portrait Photography',
+    // Child pages set just their own name; this appends the brand.
+    template: '%s | RVR Media',
+  },
   description:
-    'Photo and video coverage for events, portraits, and creative lifestyle shoots.',
+    'Photo and video coverage for events, portraits, and creative lifestyle shoots across New Jersey.',
+  alternates: {
+    canonical: '/',
+  },
   icons: {
     icon: '/favicon.ico',
   },
   openGraph: {
     type: 'website',
-    url: 'https://rvrmedia.vercel.app',
+    url: SITE_URL,
     title: 'RVR Media',
     description:
       'Photo and video coverage for events, portraits, and creative lifestyle shoots.',
@@ -66,9 +76,18 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${sans.variable} ${display.variable} bg-ink text-cream antialiased`}
       >
+        <script
+          type="application/ld+json"
+          // Static, locally authored object — no user input reaches this.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd),
+          }}
+        />
         <Navbar />
         {children}
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
