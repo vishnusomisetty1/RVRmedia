@@ -4,7 +4,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Bodoni_Moda, Lato } from 'next/font/google';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-import { localBusinessJsonLd, SITE_URL } from '@/lib/site';
+import { localBusinessJsonLd, SITE_URL, websiteJsonLd } from '@/lib/site';
 import './globals.css';
 
 // Lato is a humanist sans: narrower, slightly warm, and calm enough to sit
@@ -80,7 +80,7 @@ export default function RootLayout({
           type="application/ld+json"
           // Static, locally authored object — no user input reaches this.
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(localBusinessJsonLd),
+            __html: JSON.stringify([websiteJsonLd, localBusinessJsonLd]),
           }}
         />
         <Navbar />

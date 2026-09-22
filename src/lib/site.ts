@@ -16,6 +16,16 @@ export const SERVICE_AREA = 'New Jersey';
  * street address is exactly the kind of thing that gets local listings
  * penalised. areaServed carries the location signal instead.
  */
+export const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  name: SITE_NAME,
+  alternateName: 'RVR Media Co',
+  url: SITE_URL,
+  publisher: { '@id': `${SITE_URL}/#business` },
+};
+
 export const localBusinessJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
