@@ -97,14 +97,22 @@ function doPost(e) {
     ]);
 
     notify_(data);
-    return json_({ ok: true });
+
+    // `written` is what proves doPost handled this. Apps Script sometimes
+    // resolves the redirect back to doGet, which also answers ok:true —
+    // without this marker the caller cannot tell a real write from that.
+    return json_({ ok: true, written: true, row: sheet.getLastRow() });
   } catch (error) {
     return json_({ ok: false, error: String(error) });
   }
 }
 
 function doGet() {
-  return json_({ ok: true, message: 'RVR Media booking endpoint is live.' });
+  return json_({
+    ok: true,
+    written: false,
+    message: 'RVR Media booking endpoint is live.',
+  });
 }
 
 function getSheet_() {
@@ -123,11 +131,34 @@ function getSheet_() {
 
   if (!sheet) {
     sheet = book.insertSheet(SHEET_NAME);
-    sheet.appendRow(COLUMNS);
   }
 
+  ensureHeader_(sheet);
   formatSheet_(sheet);
   return sheet;
+}
+
+/**
+ * Writes the header row every time rather than only when the sheet is first
+ * created. Adding a column to COLUMNS otherwise leaves an existing sheet on
+ * the old header while new rows arrive with the new shape, which silently
+ * shifts every value one column out of place.
+ */
+function ensureHeader_(sheet) {
+  const current = sheet
+    .getRange(1, 1, 1, COLUMNS.length)
+    .getValues()[0]
+    .map(String);
+
+  const matches =
+    current.length === COLUMNS.length &&
+    COLUMNS.every(function (name, index) {
+      return current[index] === name;
+    });
+
+  if (!matches) {
+    sheet.getRange(1, 1, 1, COLUMNS.length).setValues([COLUMNS]);
+  }
 }
 
 /**

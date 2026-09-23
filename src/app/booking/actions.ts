@@ -27,11 +27,17 @@ export async function submitBooking(
       .map((value) => String(value).trim())
       .filter(Boolean);
 
-  const occasion = [...readAll('occasion'), read('occasionOther')].filter(Boolean);
+  const occasion = [...readAll('occasion'), read('occasionOther')].filter(
+    Boolean,
+  );
   const setting =
-    read('setting') === 'Other' ? read('settingOther') || 'Other' : read('setting');
+    read('setting') === 'Other'
+      ? read('settingOther') || 'Other'
+      : read('setting');
   const referral =
-    read('referral') === 'Other' ? read('referralOther') || 'Other' : read('referral');
+    read('referral') === 'Other'
+      ? read('referralOther') || 'Other'
+      : read('referral');
 
   const payload = {
     // Proves the request came from this site, not from anyone who found
@@ -77,28 +83,53 @@ export async function submitBooking(
   }
 
   try {
-    const response = await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      // Apps Script rejects preflighted content types, so send text/plain
-      // and parse the JSON body on the script side.
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload),
-      cache: 'no-store',
-      redirect: 'follow',
-    });
-
-    if (!response.ok) {
-      throw new Error(`Apps Script responded ${response.status}`);
-    }
-
-    const result = (await response.json()) as { ok?: boolean; error?: string };
-    if (!result.ok) {
-      throw new Error(result.error ?? 'Apps Script reported a failure');
-    }
+    await deliver(payload);
   } catch (error) {
     console.error('Booking submission failed', error);
     return { status: 'error', message: GENERIC_ERROR };
   }
 
   return { status: 'success' };
+}
+
+/**
+ * Posts the inquiry to the Apps Script endpoint.
+ *
+ * Retried once because Apps Script intermittently resolves the redirect to
+ * its GET handler, which answers ok:true without writing anything. Only a
+ * `written` marker in the response proves the row actually landed, so
+ * anything else is treated as a failure rather than reported as success.
+ */
+async function deliver(payload: unknown, attempt = 1): Promise<void> {
+  const response = await fetch(WEBHOOK_URL!, {
+    method: 'POST',
+    // Apps Script rejects preflighted content types, so send text/plain
+    // and parse the JSON body on the script side.
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload),
+    cache: 'no-store',
+    redirect: 'follow',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Apps Script responded ${response.status}`);
+  }
+
+  const result = (await response.json()) as {
+    ok?: boolean;
+    written?: boolean;
+    error?: string;
+  };
+
+  if (result.ok && result.written) {
+    return;
+  }
+
+  if (attempt < 2) {
+    return deliver(payload, attempt + 1);
+  }
+
+  throw new Error(
+    result.error ?? 'Apps Script did not confirm the row was written',
+  );
 }
