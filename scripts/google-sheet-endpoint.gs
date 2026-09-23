@@ -36,8 +36,11 @@ const SPREADSHEET_ID = '';
  */
 const SHARED_SECRET = 'Hn4X66Srzeq-YeRD1wkdKmCfSdil_Mcv';
 
+const STATUSES = ['New', 'Contacted', 'Quoted', 'Booked', 'Passed'];
+
 const COLUMNS = [
   'Submitted',
+  'Status',
   'Name',
   'Phone',
   'Email',
@@ -71,6 +74,7 @@ function doPost(e) {
 
     sheet.appendRow([
       new Date(),
+      'New',
       data.name || '',
       data.phone || '',
       data.email || '',
@@ -120,11 +124,116 @@ function getSheet_() {
   if (!sheet) {
     sheet = book.insertSheet(SHEET_NAME);
     sheet.appendRow(COLUMNS);
-    sheet.getRange(1, 1, 1, COLUMNS.length).setFontWeight('bold');
-    sheet.setFrozenRows(1);
   }
 
+  formatSheet_(sheet);
   return sheet;
+}
+
+/**
+ * Run this by hand from the editor to re-apply formatting to a sheet that
+ * already has rows in it. Select "setupFormatting" in the toolbar dropdown
+ * and press Run.
+ */
+function setupFormatting() {
+  formatSheet_(getSheet_());
+}
+
+/** Widths in the same order as COLUMNS. */
+const COLUMN_WIDTHS = [
+  140, 110, 150, 130, 210, 120, 120, 150, 150, 110, 150, 200, 120, 100, 200,
+  130, 140, 260, 160, 140, 260,
+];
+
+/** Columns whose text should wrap rather than run off the side. */
+const WRAPPED_HEADERS = [
+  'Venue',
+  'Services',
+  'Timeline & Key Moments',
+  'Notes',
+];
+
+function formatSheet_(sheet) {
+  const lastColumn = COLUMNS.length;
+  const header = sheet.getRange(1, 1, 1, lastColumn);
+
+  header
+    .setFontWeight('bold')
+    .setBackground('#4c1875')
+    .setFontColor('#ffffff')
+    .setVerticalAlignment('middle')
+    .setWrap(true);
+
+  sheet.setFrozenRows(1);
+  // Keep Submitted, Status and Name visible while scrolling sideways.
+  sheet.setFrozenColumns(3);
+  sheet.setRowHeight(1, 38);
+
+  COLUMN_WIDTHS.forEach(function (width, index) {
+    sheet.setColumnWidth(index + 1, width);
+  });
+
+  // Everything else stays on one line so rows keep a scannable height.
+  sheet.getRange(1, 1, sheet.getMaxRows(), lastColumn).setWrap(false);
+  WRAPPED_HEADERS.forEach(function (name) {
+    const index = COLUMNS.indexOf(name);
+    if (index !== -1) {
+      sheet.getRange(2, index + 1, sheet.getMaxRows() - 1, 1).setWrap(true);
+    }
+  });
+
+  sheet
+    .getRange(2, 1, sheet.getMaxRows() - 1, 1)
+    .setNumberFormat('ddd d mmm yyyy  h:mm am/pm');
+
+  const eventDateIndex = COLUMNS.indexOf('Event Date');
+  if (eventDateIndex !== -1) {
+    sheet
+      .getRange(2, eventDateIndex + 1, sheet.getMaxRows() - 1, 1)
+      .setNumberFormat('ddd d mmm yyyy');
+  }
+
+  // Status becomes a dropdown so it stays consistent enough to filter on.
+  const statusIndex = COLUMNS.indexOf('Status');
+  if (statusIndex !== -1) {
+    const statusRange = sheet.getRange(
+      2,
+      statusIndex + 1,
+      sheet.getMaxRows() - 1,
+      1,
+    );
+    statusRange.setDataValidation(
+      SpreadsheetApp.newDataValidation()
+        .requireValueInList(STATUSES, true)
+        .setAllowInvalid(false)
+        .build(),
+    );
+
+    // Colour by stage so the pipeline is readable at a glance.
+    const colours = {
+      New: '#f3e5f5',
+      Contacted: '#e3f2fd',
+      Quoted: '#fff8e1',
+      Booked: '#e8f5e9',
+      Passed: '#eeeeee',
+    };
+    const rules = Object.keys(colours).map(function (status) {
+      return SpreadsheetApp.newConditionalFormatRule()
+        .whenTextEqualTo(status)
+        .setBackground(colours[status])
+        .setRanges([statusRange])
+        .build();
+    });
+    sheet.setConditionalFormatRules(rules);
+  }
+
+  if (sheet.getBandings().length === 0) {
+    sheet
+      .getRange(1, 1, sheet.getMaxRows(), lastColumn)
+      .applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY);
+  }
+
+  sheet.getRange(1, 1, sheet.getMaxRows(), lastColumn).setVerticalAlignment('top');
 }
 
 function notify_(data) {
