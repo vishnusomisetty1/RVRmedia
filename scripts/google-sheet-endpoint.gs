@@ -96,7 +96,20 @@ function doPost(e) {
       data.notes || '',
     ]);
 
-    notify_(data);
+    // The row is already saved. An email failure past this point must not
+    // fail the request: the caller retries on failure, which would append
+    // the same inquiry a second time.
+    try {
+      notify_(data);
+    } catch (mailError) {
+      console.error('Notification email failed', mailError);
+    }
+
+    try {
+      confirmToClient_(data);
+    } catch (mailError) {
+      console.error('Client confirmation email failed', mailError);
+    }
 
     // `written` is what proves doPost handled this. Apps Script sometimes
     // resolves the redirect back to doGet, which also answers ok:true —
@@ -300,6 +313,113 @@ function notify_(data) {
     body: lines.join('\n'),
     replyTo: data.email || undefined,
   });
+}
+
+/**
+ * Sends the enquirer an acknowledgement.
+ *
+ * Deliberately worded as "received", not "confirmed": at this point nothing
+ * has been agreed, and a client who believes a date is locked when it is not
+ * is a far worse outcome than a slightly plainer email.
+ */
+function confirmToClient_(data) {
+  const to = String(data.email || '').trim();
+
+  // Cheap sanity check; MailApp throws on a malformed address and that would
+  // roll back the whole submission.
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) {
+    return;
+  }
+
+  const firstName = String(data.name || '').trim().split(' ')[0] || 'there';
+  const details = [
+    ['Occasion', data.occasion],
+    ['Date', data.eventDate],
+    ['Time', data.eventTime],
+    ['Venue', data.venue],
+    ['Services', data.services],
+    ['Coverage', data.coverageHours],
+  ].filter(function (pair) {
+    return pair[1];
+  });
+
+  const rows = details
+    .map(function (pair) {
+      return (
+        '<tr>' +
+        '<td style="padding:6px 16px 6px 0;color:#7a6b78;font-size:14px;white-space:nowrap;">' +
+        pair[0] +
+        '</td>' +
+        '<td style="padding:6px 0;color:#1f1528;font-size:14px;">' +
+        escapeHtml_(String(pair[1])) +
+        '</td>' +
+        '</tr>'
+      );
+    })
+    .join('');
+
+  const html =
+    '<div style="font-family:Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px 24px;">' +
+    '<p style="font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#a83fa0;margin:0 0 8px;">RVR Media</p>' +
+    '<h1 style="font-size:26px;font-weight:600;color:#1f1528;margin:0 0 16px;">Thanks, ' +
+    escapeHtml_(firstName) +
+    '</h1>' +
+    '<p style="font-size:15px;line-height:1.6;color:#4a3f4a;margin:0 0 20px;">' +
+    'We have your inquiry and we read every one personally. Expect a reply within 1&ndash;2 business days.' +
+    '</p>' +
+    (rows
+      ? '<table style="border-collapse:collapse;margin:0 0 20px;">' + rows + '</table>'
+      : '') +
+    '<p style="font-size:14px;line-height:1.6;color:#4a3f4a;margin:0 0 20px;">' +
+    'Nothing is booked just yet &mdash; we will confirm availability for your date when we get back to you.' +
+    '</p>' +
+    '<p style="font-size:14px;line-height:1.6;color:#4a3f4a;margin:0;">' +
+    'Anything to add in the meantime? Just reply to this email.' +
+    '</p>' +
+    '<p style="font-size:13px;color:#7a6b78;margin:28px 0 0;border-top:1px solid #e8e0e6;padding-top:16px;">' +
+    'RVR Media &middot; Event &amp; portrait photography across New Jersey<br>' +
+    '<a href="https://rvrmedia.vercel.app" style="color:#a83fa0;">rvrmedia.vercel.app</a>' +
+    '</p>' +
+    '</div>';
+
+  const plain = [
+    'Thanks, ' + firstName,
+    '',
+    'We have your inquiry and we read every one personally. Expect a reply within 1-2 business days.',
+    '',
+  ]
+    .concat(
+      details.map(function (pair) {
+        return pair[0] + ': ' + pair[1];
+      }),
+    )
+    .concat([
+      '',
+      'Nothing is booked just yet - we will confirm availability for your date when we get back to you.',
+      '',
+      'Anything to add in the meantime? Just reply to this email.',
+      '',
+      'RVR Media - Event & portrait photography across New Jersey',
+      'https://rvrmedia.vercel.app',
+    ])
+    .join('\n');
+
+  MailApp.sendEmail({
+    to: to,
+    subject: 'We got your inquiry - RVR Media',
+    body: plain,
+    htmlBody: html,
+    name: 'RVR Media',
+    replyTo: NOTIFY_EMAIL || undefined,
+  });
+}
+
+function escapeHtml_(value) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 function json_(payload) {
