@@ -24,12 +24,14 @@ const DELIVERY_ERROR =
 const MAILTO_BODY_LIMIT = 1800;
 
 /**
- * Per-attempt ceiling. Apps Script can hang for a long time, and with a retry
- * that left the form sitting on "Sending..." for upwards of 40 seconds, which
- * reads as broken. Failing sooner gets the visitor to the email fallback
- * while they still care.
+ * Measured responses ranged from 3 to 26 seconds, largely because the script
+ * sends two emails before replying. The ceiling has to clear the slow end:
+ * aborting does not stop Apps Script finishing the write, so a timeout that
+ * fires on a request which would have succeeded risks a duplicate row.
  */
-const ATTEMPT_TIMEOUT_MS = 12_000;
+const ATTEMPT_TIMEOUT_MS = 40_000;
+
+const MAX_ATTEMPTS = 2;
 
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -129,39 +131,58 @@ export async function submitBooking(
  * `written` marker in the response proves the row actually landed, so
  * anything else is treated as a failure rather than reported as success.
  */
-async function deliver(payload: unknown, attempt = 1): Promise<void> {
-  const response = await fetch(WEBHOOK_URL!, {
-    method: 'POST',
-    // Apps Script rejects preflighted content types, so send text/plain
-    // and parse the JSON body on the script side.
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(payload),
-    cache: 'no-store',
-    redirect: 'follow',
-    signal: AbortSignal.timeout(ATTEMPT_TIMEOUT_MS),
-  });
+async function deliver(payload: unknown): Promise<void> {
+  let lastError: unknown;
 
-  if (!response.ok) {
-    throw new Error(`Apps Script responded ${response.status}`);
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+    let response: Response;
+
+    try {
+      response = await fetch(WEBHOOK_URL!, {
+        method: 'POST',
+        // Apps Script rejects preflighted content types, so send text/plain
+        // and parse the JSON body on the script side.
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+        cache: 'no-store',
+        redirect: 'follow',
+        signal: AbortSignal.timeout(ATTEMPT_TIMEOUT_MS),
+      });
+    } catch (error) {
+      // A timeout or dropped connection leaves the outcome unknown: Apps
+      // Script may well have written the row before we gave up. Retrying
+      // would append it twice, so surface the failure and let the visitor
+      // use the email fallback instead.
+      throw error;
+    }
+
+    // Nothing was written on an error status, so this is safe to repeat.
+    if (!response.ok) {
+      lastError = new Error(`Apps Script responded ${response.status}`);
+      continue;
+    }
+
+    const result = (await response.json()) as {
+      ok?: boolean;
+      written?: boolean;
+      error?: string;
+    };
+
+    // Only `written` proves doPost handled this. Apps Script sometimes
+    // resolves the redirect to doGet, which also answers ok:true — and which
+    // writes nothing, so retrying that is safe too.
+    if (result.ok && result.written) {
+      return;
+    }
+
+    lastError = new Error(
+      result.error ?? 'Apps Script did not confirm the row was written',
+    );
   }
 
-  const result = (await response.json()) as {
-    ok?: boolean;
-    written?: boolean;
-    error?: string;
-  };
-
-  if (result.ok && result.written) {
-    return;
-  }
-
-  if (attempt < 2) {
-    return deliver(payload, attempt + 1);
-  }
-
-  throw new Error(
-    result.error ?? 'Apps Script did not confirm the row was written',
-  );
+  throw lastError instanceof Error
+    ? lastError
+    : new Error('Delivery failed for an unknown reason');
 }
 
 /** Composes a prefilled email carrying every answer the visitor gave. */
