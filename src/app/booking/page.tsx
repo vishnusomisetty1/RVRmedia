@@ -1,11 +1,6 @@
 import type { Metadata } from 'next';
+import BookingForm from '../components/BookingForm';
 import Reveal from '../components/Reveal';
-
-// TEMPORARY: the custom form in components/BookingForm.tsx is finished but has
-// nowhere to deliver to until a backend exists, so the Google Form is back in
-// place. Swap this iframe for <BookingForm /> once the CRM is wired up.
-const GOOGLE_FORM_SRC =
-  'https://docs.google.com/forms/d/e/1FAIpQLSevbA8RdIBgkm_ILugVApZBtERPMLPZPzJgyxd8sebuaO4UVQ/viewform?embedded=true';
 
 export const metadata: Metadata = {
   title: 'Book Us | RVR Media',
@@ -61,16 +56,7 @@ export default function BookingPage() {
         </div>
 
         <Reveal>
-          <div className="overflow-hidden rounded-xl border border-plum/20 bg-white">
-            <iframe
-              src={GOOGLE_FORM_SRC}
-              title="RVR Media booking form"
-              className="h-[3198px] w-full"
-              loading="lazy"
-            >
-              Loading...
-            </iframe>
-          </div>
+          <BookingForm />
         </Reveal>
 
         <Reveal className="mt-10 text-center text-sm text-cream/45">
