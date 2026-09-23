@@ -23,13 +23,6 @@ const display = Bodoni_Moda({
   display: 'swap',
 });
 
-const SHARE_IMAGE = {
-  url: '/gallery/events/_DSC9302.jpg',
-  width: 2400,
-  height: 1600,
-  alt: 'Guests dancing at a private event photographed by RVR Media',
-};
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -52,14 +45,14 @@ export const metadata: Metadata = {
     description:
       'Photo and video coverage for events, portraits, and creative lifestyle shoots.',
     siteName: 'RVR Media',
-    images: [SHARE_IMAGE],
   },
   twitter: {
-    card: 'summary_large_image',
+    // 'summary' rather than 'summary_large_image': no image is being
+    // supplied, and the large-image card expects one.
+    card: 'summary',
     title: 'RVR Media',
     description:
       'Photo and video coverage for events, portraits, and creative lifestyle shoots.',
-    images: [SHARE_IMAGE.url],
   },
 };
 
