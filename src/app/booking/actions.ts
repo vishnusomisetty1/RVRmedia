@@ -1,16 +1,27 @@
 'use server';
 
+import { CONTACT_EMAIL } from '@/lib/site';
+
 export type BookingState = {
   status: 'idle' | 'success' | 'error';
   message?: string;
+  /**
+   * Set only when delivery itself failed. Opens the visitor's mail app with
+   * everything they just typed already filled in, so an outage costs an
+   * inquiry a click rather than losing it.
+   */
+  mailto?: string;
 };
 
 // Google Apps Script web app that appends the inquiry to the bookings sheet.
 // See scripts/google-sheet-endpoint.gs for the one-time setup.
 const WEBHOOK_URL = process.env.BOOKING_WEBHOOK_URL;
 
-const GENERIC_ERROR =
-  'Something went wrong sending your inquiry. Please try again, or email Rvr.mediaco@gmail.com.';
+const DELIVERY_ERROR =
+  'We could not send that automatically. Your answers are safe — send them as an email instead and nothing is lost.';
+
+/** Mail clients start dropping the body past roughly 2000 characters. */
+const MAILTO_BODY_LIMIT = 1800;
 
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -79,14 +90,24 @@ export async function submitBooking(
 
   if (!WEBHOOK_URL) {
     console.error('BOOKING_WEBHOOK_URL is not set; inquiry was not delivered.');
-    return { status: 'error', message: GENERIC_ERROR };
+    return {
+      status: 'error',
+      message: DELIVERY_ERROR,
+      mailto: buildMailto(payload),
+    };
   }
 
   try {
     await deliver(payload);
   } catch (error) {
-    console.error('Booking submission failed', error);
-    return { status: 'error', message: GENERIC_ERROR };
+    // Logged in full so an inquiry that failed to land is still recoverable
+    // from the runtime logs.
+    console.error('Booking submission failed', error, JSON.stringify(payload));
+    return {
+      status: 'error',
+      message: DELIVERY_ERROR,
+      mailto: buildMailto(payload),
+    };
   }
 
   return { status: 'success' };
@@ -132,4 +153,41 @@ async function deliver(payload: unknown, attempt = 1): Promise<void> {
   throw new Error(
     result.error ?? 'Apps Script did not confirm the row was written',
   );
+}
+
+/** Composes a prefilled email carrying every answer the visitor gave. */
+function buildMailto(payload: Record<string, string>): string {
+  const labels: Array<[string, string]> = [
+    ['Name', payload.name],
+    ['Phone', payload.phone],
+    ['Email', payload.email],
+    ['Best way to reach me', payload.contactMethod],
+    ['Instagram', payload.instagram],
+    ['Occasion', payload.occasion],
+    ['Guest of honor', payload.guestOfHonor],
+    ['Event date', payload.eventDate],
+    ['Event time', payload.eventTime],
+    ['Venue', payload.venue],
+    ['Indoor / outdoor', payload.setting],
+    ['Guests expected', payload.guests],
+    ['Services', payload.services],
+    ['Coverage needed', payload.coverageHours],
+    ['Budget', payload.budget],
+    ['Key moments', payload.timeline],
+    ['Photo permission', payload.photoPermission],
+    ['Found you via', payload.referral],
+    ['Notes', payload.notes],
+  ];
+
+  const body = labels
+    .filter(([, value]) => value)
+    .map(([label, value]) => `${label}: ${value}`)
+    .join('\n')
+    .slice(0, MAILTO_BODY_LIMIT);
+
+  const subject = `Booking inquiry - ${payload.name || 'RVR Media'}`;
+
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+    subject,
+  )}&body=${encodeURIComponent(body)}`;
 }

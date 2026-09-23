@@ -60,7 +60,9 @@ function Ask({
           <span className="text-xs text-cream/30">optional</span>
         ) : null}
       </div>
-      {hint ? <p className="-mt-1 mb-2.5 text-sm text-cream/40">{hint}</p> : null}
+      {hint ? (
+        <p className="-mt-1 mb-2.5 text-sm text-cream/40">{hint}</p>
+      ) : null}
       {children}
     </div>
   );
@@ -149,7 +151,9 @@ export default function BookingForm() {
     list: string[],
     set: (next: string[]) => void,
   ) =>
-    set(list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
+    set(
+      list.includes(value) ? list.filter((v) => v !== value) : [...list, value],
+    );
 
   const stepValid = useMemo(() => {
     if (step === 0) return occasion.length > 0 || occasionOther.trim() !== '';
@@ -272,7 +276,11 @@ export default function BookingForm() {
             </Ask>
           </div>
 
-          <Ask label="Venue" optional hint='If it&rsquo;s a house, just write "house".'>
+          <Ask
+            label="Venue"
+            optional
+            hint='If it&rsquo;s a house, just write "house".'
+          >
             <input
               type="text"
               name="venue"
@@ -390,7 +398,11 @@ export default function BookingForm() {
             optional
             hint="Cake cutting, speeches, entrance, first dance, family photos…"
           >
-            <textarea name="timeline" rows={3} className={`${field} resize-y`} />
+            <textarea
+              name="timeline"
+              rows={3}
+              className={`${field} resize-y`}
+            />
           </Ask>
 
           <Ask label="May we show selected photos in our portfolio?">
@@ -504,9 +516,17 @@ export default function BookingForm() {
         </div>
 
         {state.status === 'error' && state.message ? (
-          <p className="mt-8 rounded-lg border border-red-400/25 bg-red-400/[0.08] px-4 py-3 text-sm text-red-200">
-            {state.message}
-          </p>
+          <div className="mt-8 rounded-lg border border-red-400/25 bg-red-400/[0.08] px-4 py-4">
+            <p className="text-sm text-red-200">{state.message}</p>
+            {state.mailto ? (
+              <a
+                href={state.mailto}
+                className="mt-3 inline-flex rounded-lg bg-violet px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-violet-dark"
+              >
+                Send as email instead
+              </a>
+            ) : null}
+          </div>
         ) : null}
       </div>
 
