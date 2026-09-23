@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import Reveal from './Reveal';
 import RevealText from './RevealText';
 
@@ -62,9 +63,15 @@ export default function Team() {
               className="mt-3 font-display text-3xl font-normal text-cream/90 md:text-5xl"
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link
+                href="/booking"
+                className="inline-flex rounded-full bg-violet px-6 py-3 text-sm font-semibold text-cream transition-colors hover:bg-violet-dark focus:outline-none focus-visible:ring-4 focus-visible:ring-orchid/40"
+              >
+                Book a shoot
+              </Link>
               <a
                 href="mailto:rvr.mediaco@gmail.com"
-                className="inline-flex rounded-full bg-violet px-6 py-3 text-sm font-semibold text-cream transition-colors hover:bg-violet-dark focus:outline-none focus-visible:ring-4 focus-visible:ring-orchid/40"
+                className="inline-flex rounded-full border border-orchid/35 px-6 py-3 text-sm font-semibold text-cream/90 transition-colors hover:border-orchid/70 hover:bg-orchid/10 focus:outline-none focus-visible:ring-4 focus-visible:ring-orchid/40"
               >
                 rvr.mediaco@gmail.com
               </a>
