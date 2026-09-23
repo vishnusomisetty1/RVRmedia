@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Reveal from './Reveal';
 
 const EMAIL = 'rvr.mediaco@gmail.com';
+const INSTAGRAM_URL = 'https://www.instagram.com/rvr_mediaco/';
 
 const LINKS = [
   { href: '/portfolio', label: 'Portfolio' },
@@ -62,6 +63,16 @@ export default function Footer() {
                     className="break-all text-cream/70 transition-colors hover:text-cream"
                   >
                     {EMAIL}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cream/70 transition-colors hover:text-cream"
+                  >
+                    @rvr_mediaco
                   </a>
                 </li>
               </ul>
