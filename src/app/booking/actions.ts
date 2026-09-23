@@ -23,6 +23,14 @@ const DELIVERY_ERROR =
 /** Mail clients start dropping the body past roughly 2000 characters. */
 const MAILTO_BODY_LIMIT = 1800;
 
+/**
+ * Per-attempt ceiling. Apps Script can hang for a long time, and with a retry
+ * that left the form sitting on "Sending..." for upwards of 40 seconds, which
+ * reads as broken. Failing sooner gets the visitor to the email fallback
+ * while they still care.
+ */
+const ATTEMPT_TIMEOUT_MS = 12_000;
+
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
@@ -130,6 +138,7 @@ async function deliver(payload: unknown, attempt = 1): Promise<void> {
     body: JSON.stringify(payload),
     cache: 'no-store',
     redirect: 'follow',
+    signal: AbortSignal.timeout(ATTEMPT_TIMEOUT_MS),
   });
 
   if (!response.ok) {
