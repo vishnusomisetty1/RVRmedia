@@ -14,8 +14,7 @@ export const SERVICE_AREA = 'New Jersey';
  * street address is exactly the kind of thing that gets local listings
  * penalised. areaServed carries the location signal instead.
  */
-export const websiteJsonLd = {
-  '@context': 'https://schema.org',
+const websiteJsonLd = {
   '@type': 'WebSite',
   '@id': `${SITE_URL}/#website`,
   name: SITE_NAME,
@@ -24,8 +23,7 @@ export const websiteJsonLd = {
   publisher: { '@id': `${SITE_URL}/#business` },
 };
 
-export const localBusinessJsonLd = {
-  '@context': 'https://schema.org',
+const localBusinessJsonLd = {
   '@type': 'ProfessionalService',
   '@id': `${SITE_URL}/#business`,
   name: SITE_NAME,
@@ -46,4 +44,16 @@ export const localBusinessJsonLd = {
     'Videography',
     'Drone footage',
   ],
+};
+
+/**
+ * Both entities in one graph.
+ *
+ * A bare array of objects is technically valid JSON-LD, but consumers
+ * reasonably expect @context at the root — reading it off an array yields
+ * undefined. @graph keeps a single root object with one @context.
+ */
+export const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [websiteJsonLd, localBusinessJsonLd],
 };
