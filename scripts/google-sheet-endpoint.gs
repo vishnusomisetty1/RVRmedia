@@ -70,6 +70,14 @@ function doPost(e) {
       return json_({ ok: false, error: 'Unauthorized' });
     }
 
+    // A submission that times out on the caller's side has usually still
+    // landed here. Without this, their retry — or the visitor pressing send
+    // again after seeing an error — appends the same inquiry twice and sends
+    // a second round of emails.
+    if (isDuplicate_(data)) {
+      return json_({ ok: true, written: true, duplicate: true });
+    }
+
     const sheet = getSheet_();
 
     sheet.appendRow([
@@ -412,6 +420,46 @@ function confirmToClient_(data) {
     name: 'RVR Media',
     replyTo: NOTIFY_EMAIL || undefined,
   });
+}
+
+/** How long an identical submission is treated as a repeat rather than new. */
+const DUPLICATE_WINDOW_MS = 10 * 60 * 1000;
+
+/**
+ * True when this exact inquiry was accepted moments ago.
+ *
+ * Keyed on the answers themselves rather than a per-request id, so it also
+ * catches a visitor pressing send again after an error they were shown by
+ * mistake — which is the common case.
+ */
+function isDuplicate_(data) {
+  const key =
+    'dedupe_' +
+    Utilities.base64EncodeWebSafe(
+      Utilities.computeDigest(
+        Utilities.DigestAlgorithm.MD5,
+        [
+          data.name,
+          data.email,
+          data.phone,
+          data.occasion,
+          data.eventDate,
+          data.venue,
+          data.notes,
+        ].join('|'),
+      ),
+    );
+
+  const store = PropertiesService.getScriptProperties();
+  const seenAt = Number(store.getProperty(key) || 0);
+  const now = Date.now();
+
+  if (seenAt && now - seenAt < DUPLICATE_WINDOW_MS) {
+    return true;
+  }
+
+  store.setProperty(key, String(now));
+  return false;
 }
 
 function escapeHtml_(value) {
