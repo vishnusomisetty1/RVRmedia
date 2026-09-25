@@ -8,6 +8,12 @@ const TEAM = [
   { name: 'Rishan Kundharaju', photo: '/profilepic/Rishan.png' },
 ];
 
+// --- TEMPORARY CREDIT: delete this block and the <Reveal> that renders
+// SUPPORTING_CREDITS below to remove it. Nothing else references either. ---
+const SUPPORTING_CREDITS = [
+  { name: 'Rishikesh Venkateshwararaja', role: 'Social Media Manager' },
+];
+
 export default function Team() {
   return (
     <section id="about" className="scroll-mt-16 bg-ink py-24">
@@ -23,7 +29,7 @@ export default function Team() {
           className="mb-14 text-center font-display text-4xl font-normal text-cream md:text-6xl"
         />
 
-        <div className="mb-24 flex flex-col items-center justify-center gap-12 md:flex-row md:gap-20">
+        <div className="mb-10 flex flex-col items-center justify-center gap-12 md:flex-row md:gap-20">
           {TEAM.map((member, index) => (
             <Reveal
               key={member.name}
@@ -48,6 +54,17 @@ export default function Team() {
             </Reveal>
           ))}
         </div>
+
+        {/* TEMPORARY CREDIT — see SUPPORTING_CREDITS above. */}
+        <Reveal delay={280} className="mb-20 text-center">
+          {SUPPORTING_CREDITS.map((person) => (
+            <p key={person.name} className="text-sm text-cream/55">
+              <span className="text-cream/80">{person.name}</span>
+              <span className="mx-2 text-cream/25">&middot;</span>
+              {person.role}
+            </p>
+          ))}
+        </Reveal>
 
         <Reveal>
           <div

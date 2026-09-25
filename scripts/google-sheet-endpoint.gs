@@ -16,6 +16,13 @@
  * Version "New version" -> Deploy. The URL stays the same.
  */
 
+/**
+ * Bump when changing this file. It is reported by doGet, which is the only
+ * way to tell from outside which version is actually deployed — editing the
+ * code does nothing until a new version is published.
+ */
+const SCRIPT_VERSION = '2026-09-23.1';
+
 const SHEET_NAME = 'Website Inquiries';
 const NOTIFY_EMAIL = 'Rvr.mediaco@gmail.com';
 
@@ -75,7 +82,12 @@ function doPost(e) {
     // again after seeing an error — appends the same inquiry twice and sends
     // a second round of emails.
     if (isDuplicate_(data)) {
-      return json_({ ok: true, written: true, duplicate: true });
+      return json_({
+        ok: true,
+        written: true,
+        duplicate: true,
+        version: SCRIPT_VERSION,
+      });
     }
 
     const sheet = getSheet_();
@@ -122,7 +134,12 @@ function doPost(e) {
     // `written` is what proves doPost handled this. Apps Script sometimes
     // resolves the redirect back to doGet, which also answers ok:true —
     // without this marker the caller cannot tell a real write from that.
-    return json_({ ok: true, written: true, row: sheet.getLastRow() });
+    return json_({
+      ok: true,
+      written: true,
+      row: sheet.getLastRow(),
+      version: SCRIPT_VERSION,
+    });
   } catch (error) {
     return json_({ ok: false, error: String(error) });
   }
@@ -132,6 +149,7 @@ function doGet() {
   return json_({
     ok: true,
     written: false,
+    version: SCRIPT_VERSION,
     message: 'RVR Media booking endpoint is live.',
   });
 }
