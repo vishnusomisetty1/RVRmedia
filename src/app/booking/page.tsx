@@ -8,6 +8,11 @@ export const metadata: Metadata = {
     'Tell us about your event and we will get back to you with availability within 1-2 business days.',
 };
 
+// The inquiry is delivered to Apps Script, which sends two emails before it
+// replies and has taken up to 26 seconds. The project default of 10 seconds
+// killed those submissions mid-flight.
+export const maxDuration = 60;
+
 const ASSURANCES = [
   {
     title: 'Reply in 1-2 days',

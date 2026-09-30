@@ -12,6 +12,8 @@ import {
   REFERRAL_SOURCES,
   SERVICES,
   SETTINGS,
+  buildMailto,
+  readBookingPayload,
 } from '@/lib/booking-form';
 import { submitBooking, type BookingState } from '../booking/actions';
 
@@ -124,9 +126,32 @@ function formatPhone(raw: string) {
 
 const initialState: BookingState = { status: 'idle' };
 
+/**
+ * A request that never comes back (dropped signal, the phone locking, the
+ * function being cut off) rejects instead of returning a state. Left alone,
+ * that throws into the root error page and the visitor loses everything, so
+ * turn it into the same email fallback a delivery failure gets. The server
+ * may still have written the row, so say it is unconfirmed, not failed.
+ */
+async function submitWithFallback(
+  prev: BookingState,
+  formData: FormData,
+): Promise<BookingState> {
+  try {
+    return await submitBooking(prev, formData);
+  } catch {
+    return {
+      status: 'error',
+      message:
+        'We could not confirm that went through. To be safe, send it as an email too — if both arrive we will only reply once.',
+      mailto: buildMailto(readBookingPayload(formData)),
+    };
+  }
+}
+
 export default function BookingForm() {
   const [state, formAction, isPending] = useActionState(
-    submitBooking,
+    submitWithFallback,
     initialState,
   );
   const [step, setStep] = useState(0);
