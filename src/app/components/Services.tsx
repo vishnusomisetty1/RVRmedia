@@ -24,6 +24,12 @@ const SERVICES = [
     description:
       'Natural moments, casual lifestyle shots, NYC shoots, and cinematic edits with a more spontaneous feel.',
   },
+  {
+    title: 'Commercial',
+    category: 'commercial',
+    description:
+      'Venues, restaurants, food and drinks, products, and promo shoots for businesses that need content that sells.',
+  },
 ];
 
 export default function Services() {
@@ -40,7 +46,7 @@ export default function Services() {
           text="What We Shoot"
           className="mb-14 text-center font-display text-4xl font-normal text-cream md:text-6xl"
         />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map((service, index) => (
             <Reveal key={service.title} delay={index * 110}>
               <Link

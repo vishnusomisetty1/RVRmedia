@@ -17,6 +17,12 @@ export const PORTFOLIO_CATEGORIES = [
     title: 'Candid / Lifestyle',
     folder: 'creative',
   },
+  {
+    id: 'commercial',
+    title: 'Commercial',
+    folder: 'commercial',
+    coverImageName: 'DSC09906',
+  },
 ] as const;
 
 export type PortfolioCategoryId = (typeof PORTFOLIO_CATEGORIES)[number]['id'];
@@ -27,6 +33,8 @@ export type GalleryItem = {
   type: 'image' | 'video' | 'raw';
   category: PortfolioCategoryId;
   previewSrc?: string;
+  // Day the photo was taken (YYYY-MM-DD); photos sharing it are one shoot.
+  shoot?: string;
   width?: number;
   height?: number;
 };
@@ -36,45 +44,56 @@ export function getGalleryItems(): GalleryItem[] {
 }
 
 /**
- * Spreads the photos so no two neighbours share a category — a run of shots
- * from the same event (same faces, same room) never sits together in the
- * film strip.
+ * Spreads the photos so no two neighbours come from the same shoot (same
+ * faces, same room), and where possible not the same category either.
  *
- * At each step it takes from whichever category has the most left, skipping
- * the one just used. Draining the biggest bucket first is what keeps an
- * oversized category from piling up at the end.
+ * At each step it takes from whichever shoot has the most photos left,
+ * skipping the one just used. Draining the biggest shoot first is what keeps
+ * an oversized shoot from piling up at the end. When a single shoot makes up
+ * more than half the list, some neighbours have to repeat it.
  *
  * Deterministic on purpose: a random shuffle would produce different output on
  * the server and the client and break hydration.
  */
-export function interleaveByCategory(items: GalleryItem[]): GalleryItem[] {
-  const buckets = new Map<PortfolioCategoryId, GalleryItem[]>();
+export function spreadOutShoots(items: GalleryItem[]): GalleryItem[] {
+  const buckets = new Map<string, GalleryItem[]>();
 
   for (const item of items) {
-    const bucket = buckets.get(item.category);
+    const key = shootKey(item);
+    const bucket = buckets.get(key);
     if (bucket) {
       bucket.push(item);
     } else {
-      buckets.set(item.category, [item]);
+      buckets.set(key, [item]);
     }
   }
 
   const result: GalleryItem[] = [];
-  let previous: PortfolioCategoryId | null = null;
+  let previous: GalleryItem | null = null;
 
   while (result.length < items.length) {
-    let pick: PortfolioCategoryId | null = null;
+    let pick: string | null = null;
+    let pickChangesCategory = false;
 
-    for (const [category, queue] of buckets) {
-      if (queue.length === 0 || category === previous) {
+    for (const [key, queue] of buckets) {
+      if (queue.length === 0 || (previous && key === shootKey(previous))) {
         continue;
       }
-      if (pick === null || queue.length > (buckets.get(pick)?.length ?? 0)) {
-        pick = category;
+
+      const changesCategory = queue[0].category !== previous?.category;
+      const isBigger = queue.length > (pick ? buckets.get(pick)!.length : 0);
+
+      if (
+        pick === null ||
+        (changesCategory && !pickChangesCategory) ||
+        (changesCategory === pickChangesCategory && isBigger)
+      ) {
+        pick = key;
+        pickChangesCategory = changesCategory;
       }
     }
 
-    // Only the previous category is left; the tail has to repeat it.
+    // Only the previous shoot is left; the tail has to repeat it.
     if (pick === null) {
       pick =
         [...buckets.entries()].find(([, queue]) => queue.length > 0)?.[0] ??
@@ -85,25 +104,25 @@ export function interleaveByCategory(items: GalleryItem[]): GalleryItem[] {
       break;
     }
 
-    result.push(buckets.get(pick)!.shift()!);
-    previous = pick;
+    previous = buckets.get(pick)!.shift()!;
+    result.push(previous);
   }
 
-  return closeTheLoop(result);
+  return result;
 }
 
 /**
  * The film strip repeats its list to scroll forever, so the last photo ends up
- * next to the first one at the wrap point. If those two share a category, move
+ * next to the first one at the wrap point. If those two share a shoot, move
  * the last photo to the first gap where both neighbours differ from it.
  */
-function closeTheLoop(items: GalleryItem[]): GalleryItem[] {
+export function closeTheLoop(items: GalleryItem[]): GalleryItem[] {
   if (items.length < 3) {
     return items;
   }
 
   const last = items[items.length - 1];
-  if (last.category !== items[0].category) {
+  if (shootKey(last) !== shootKey(items[0])) {
     return items;
   }
 
@@ -111,8 +130,8 @@ function closeTheLoop(items: GalleryItem[]): GalleryItem[] {
   const gap = rest.findIndex(
     (item, index) =>
       index > 0 &&
-      item.category !== last.category &&
-      rest[index - 1].category !== last.category,
+      shootKey(item) !== shootKey(last) &&
+      shootKey(rest[index - 1]) !== shootKey(last),
   );
 
   if (gap === -1) {
@@ -120,4 +139,9 @@ function closeTheLoop(items: GalleryItem[]): GalleryItem[] {
   }
 
   return [...rest.slice(0, gap), last, ...rest.slice(gap)];
+}
+
+// Photos with no capture date are treated as their own one-photo shoot.
+function shootKey(item: GalleryItem) {
+  return item.shoot ?? item.src;
 }

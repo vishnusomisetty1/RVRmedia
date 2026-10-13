@@ -81,7 +81,7 @@ export default function PortfolioBrowser({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       {categories.map((category, index) => {
         const categoryItems = categoryItemsById.get(category.id) ?? [];
         const coverItem =

@@ -1,21 +1,21 @@
-import Image from "next/image";
-import Link from "next/link";
-import Reveal from "./Reveal";
-import RevealText from "./RevealText";
+import Image from 'next/image';
+import Link from 'next/link';
+import Reveal from './Reveal';
+import RevealText from './RevealText';
 
 // Each inner array is one row of portraits.
 const TEAM_ROWS = [
   [
-    { name: "Vishnu Somisetty", photo: "/profilepic/Vishnu(temp).png" },
-    { name: "Likhil Gudipati", photo: "/profilepic/Likhil.png" },
+    { name: 'Vishnu Somisetty', photo: '/profilepic/Vishnu(temp).png' },
+    { name: 'Likhil Gudipati', photo: '/profilepic/Likhil.png' },
   ],
-  [{ name: "Rishan Kundharaju", photo: "/profilepic/Rishan.png" }],
+  [{ name: 'Rishan Kundharaju', photo: '/profilepic/Rishan.png' }],
 ];
 
 // --- TEMPORARY CREDIT: delete this block and the <Reveal> that renders
 // SUPPORTING_CREDITS below to remove it. Nothing else references either. ---
 const SUPPORTING_CREDITS = [
-  { name: "Rishikesh Venkateshwararaja", role: "Social Media Manager" },
+  { name: 'Rishikesh Venkateshwararaja', role: 'Social Media Manager' },
 ];
 
 export default function Team() {

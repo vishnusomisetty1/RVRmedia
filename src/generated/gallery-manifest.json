@@ -1,11 +1,102 @@
 [
   {
+    "name": "_DSC6269",
+    "src": "/gallery/commercial/_DSC6269.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-10-09"
+  },
+  {
+    "name": "_DSC6289",
+    "src": "/gallery/commercial/_DSC6289.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-10-09"
+  },
+  {
+    "name": "_DSC6297",
+    "src": "/gallery/commercial/_DSC6297.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-10-09"
+  },
+  {
+    "name": "_DSC9473",
+    "src": "/gallery/commercial/_DSC9473.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-04-17"
+  },
+  {
+    "name": "_DSC9526",
+    "src": "/gallery/commercial/_DSC9526.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 2048,
+    "height": 1365,
+    "shoot": "2026-05-01"
+  },
+  {
+    "name": "DSC09869",
+    "src": "/gallery/commercial/DSC09869.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-10-09"
+  },
+  {
+    "name": "DSC09906",
+    "src": "/gallery/commercial/DSC09906.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 1600,
+    "height": 2400,
+    "shoot": "2026-10-09"
+  },
+  {
+    "name": "DSC09936",
+    "src": "/gallery/commercial/DSC09936.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-10-09"
+  },
+  {
+    "name": "DSC09946",
+    "src": "/gallery/commercial/DSC09946.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-10-09"
+  },
+  {
+    "name": "DSC09949",
+    "src": "/gallery/commercial/DSC09949.jpg",
+    "type": "image",
+    "category": "commercial",
+    "width": 1600,
+    "height": 2400,
+    "shoot": "2026-10-09"
+  },
+  {
     "name": "_DSC0171-2",
     "src": "/gallery/creative/_DSC0171-2.jpg",
     "type": "image",
     "category": "creative",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-17"
   },
   {
     "name": "_DSC0661",
@@ -13,7 +104,8 @@
     "type": "image",
     "category": "creative",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-17"
   },
   {
     "name": "_DSC0838",
@@ -21,7 +113,8 @@
     "type": "image",
     "category": "creative",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-17"
   },
   {
     "name": "_DSC0884",
@@ -29,15 +122,8 @@
     "type": "image",
     "category": "creative",
     "width": 2400,
-    "height": 1600
-  },
-  {
-    "name": "_DSC9473",
-    "src": "/gallery/creative/_DSC9473.jpg",
-    "type": "image",
-    "category": "creative",
-    "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-17"
   },
   {
     "name": "_DSC1671",
@@ -45,7 +131,8 @@
     "type": "image",
     "category": "events",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-22"
   },
   {
     "name": "_DSC9038",
@@ -53,7 +140,8 @@
     "type": "image",
     "category": "events",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-04-17"
   },
   {
     "name": "_DSC9302",
@@ -61,7 +149,8 @@
     "type": "image",
     "category": "events",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-04-17"
   },
   {
     "name": "_DSC9484",
@@ -69,7 +158,8 @@
     "type": "image",
     "category": "events",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-04-17"
   },
   {
     "name": "_DSC9499",
@@ -77,15 +167,8 @@
     "type": "image",
     "category": "events",
     "width": 2400,
-    "height": 1600
-  },
-  {
-    "name": "_DSC9526",
-    "src": "/gallery/events/_DSC9526.jpg",
-    "type": "image",
-    "category": "events",
-    "width": 2048,
-    "height": 1365
+    "height": 1600,
+    "shoot": "2026-04-17"
   },
   {
     "name": "_DSC0794",
@@ -93,7 +176,8 @@
     "type": "image",
     "category": "portraits",
     "width": 1600,
-    "height": 2400
+    "height": 2400,
+    "shoot": "2026-05-17"
   },
   {
     "name": "_DSC0843",
@@ -101,7 +185,8 @@
     "type": "image",
     "category": "portraits",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-17"
   },
   {
     "name": "_DSC0912",
@@ -109,7 +194,8 @@
     "type": "image",
     "category": "portraits",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-22"
   },
   {
     "name": "_DSC0947",
@@ -117,7 +203,8 @@
     "type": "image",
     "category": "portraits",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-22"
   },
   {
     "name": "_DSC9635",
@@ -125,7 +212,8 @@
     "type": "image",
     "category": "portraits",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-01"
   },
   {
     "name": "_DSC9770",
@@ -133,7 +221,8 @@
     "type": "image",
     "category": "portraits",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-01"
   },
   {
     "name": "DSC09348",
@@ -141,6 +230,34 @@
     "type": "image",
     "category": "portraits",
     "width": 2400,
-    "height": 1600
+    "height": 1600,
+    "shoot": "2026-05-01"
+  },
+  {
+    "name": "DSC09908",
+    "src": "/gallery/portraits/DSC09908.jpg",
+    "type": "image",
+    "category": "portraits",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-10-09"
+  },
+  {
+    "name": "DSC09932",
+    "src": "/gallery/portraits/DSC09932.jpg",
+    "type": "image",
+    "category": "portraits",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-10-09"
+  },
+  {
+    "name": "DSC09939",
+    "src": "/gallery/portraits/DSC09939.jpg",
+    "type": "image",
+    "category": "portraits",
+    "width": 2400,
+    "height": 1600,
+    "shoot": "2026-10-09"
   }
 ]

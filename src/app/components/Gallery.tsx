@@ -1,9 +1,18 @@
-import { getGalleryItems, PORTFOLIO_CATEGORIES } from '@/lib/gallery';
+import {
+  getGalleryItems,
+  PORTFOLIO_CATEGORIES,
+  spreadOutShoots,
+} from '@/lib/gallery';
 import PortfolioBrowser from './PortfolioBrowser';
 import Reveal from './Reveal';
 
 export default async function Gallery() {
-  const items = await getGalleryItems();
+  // Order each category on its own so shots from one shoot are spread apart
+  // within the grid a visitor actually sees.
+  const allItems = await getGalleryItems();
+  const items = PORTFOLIO_CATEGORIES.flatMap((category) =>
+    spreadOutShoots(allItems.filter((item) => item.category === category.id)),
+  );
 
   if (items.length === 0) {
     return null;
@@ -17,7 +26,7 @@ export default async function Gallery() {
             Portfolio
           </p>
           <h2 className="mt-3 font-display text-4xl font-normal text-cream md:text-6xl">
-            Events, Portraits, and Candid Work
+            Events, Portraits, Candid, and Commercial
           </h2>
         </Reveal>
 

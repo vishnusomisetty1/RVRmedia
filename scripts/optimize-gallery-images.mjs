@@ -4,9 +4,11 @@ import {
   existsSync,
   mkdirSync,
   readdirSync,
+  readFileSync,
   renameSync,
   statSync,
   unlinkSync,
+  writeFileSync,
 } from 'node:fs';
 import path from 'node:path';
 
@@ -44,6 +46,10 @@ for (const file of imageFiles) {
   }
 
   const before = statSync(inputPath).size;
+
+  if (stripMetadata(inputPath)) {
+    console.log(`Stripped metadata from ${file}.`);
+  }
 
   if (getLongestSide(inputPath) <= Number(maxPixels)) {
     console.log(`Skipped ${file}; already web-sized.`);
@@ -86,12 +92,56 @@ for (const file of imageFiles) {
   }
 
   renameSync(tempPath, inputPath);
+  stripMetadata(inputPath);
   console.log(
     `Optimized ${file}: ${formatMegabytes(before)} -> ${formatMegabytes(after)}`,
   );
 }
 
 console.log(`Full-resolution backups are in ${path.relative(process.cwd(), backupDir)}.`);
+
+// Removes the date, camera, and location data a downloaded photo would
+// otherwise carry (EXIF/XMP in APP1, IPTC in APP13). Cuts the segments out
+// rather than re-encoding, so the picture itself is untouched. The colour
+// profile (APP2) stays. Returns true if anything was removed.
+function stripMetadata(filePath) {
+  const buffer = readFileSync(filePath);
+
+  if (buffer[0] !== 0xff || buffer[1] !== 0xd8) {
+    return false;
+  }
+
+  const kept = [buffer.subarray(0, 2)];
+  let offset = 2;
+  let removed = false;
+
+  while (offset + 4 <= buffer.length && buffer[offset] === 0xff) {
+    const marker = buffer[offset + 1];
+
+    // Start of scan: the image data runs from here to the end of the file.
+    if (marker === 0xda) {
+      break;
+    }
+
+    const end = offset + 2 + buffer.readUInt16BE(offset + 2);
+
+    if (marker === 0xe1 || marker === 0xed) {
+      removed = true;
+    } else {
+      kept.push(buffer.subarray(offset, end));
+    }
+
+    offset = end;
+  }
+
+  if (!removed) {
+    return false;
+  }
+
+  kept.push(buffer.subarray(offset));
+  writeFileSync(filePath, Buffer.concat(kept));
+  return true;
+}
 
 function getImageFiles(directory, baseDirectory = directory) {
   const files = [];
