@@ -9,30 +9,48 @@ type FilmStripProps = {
   items: GalleryItem[];
 };
 
-const SPEED = 0.75; // pixels per frame at 60fps — a slow, ambient drift
+const SPEED = 0.6; // pixels per frame at 60fps — a slow, ambient drift
+const SCROLL_PUSH = 0.9; // how far the strips travel per pixel of page scroll
+const SCROLL_EASE = 0.12; // smooths the scroll push so it glides instead of jumps
 const DRAG_THRESHOLD = 6; // px of movement before a pointer counts as a drag
+const TILT = 10; // degrees each strip leans; the two cross at 2 × TILT
+
+// The two strips lean opposite ways and travel opposite ways.
+const STRIPS = [
+  { tilt: -TILT, direction: 1 },
+  { tilt: TILT, direction: -1 },
+] as const;
+
+type StripState = {
+  offset: number;
+  half: number;
+  drag: { isDown: boolean; startX: number; startY: number; startOffset: number; moved: number };
+};
 
 export default function FilmStrip({ items }: FilmStripProps) {
-  const trackRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const strips = useRef<StripState[]>(
+    STRIPS.map(() => ({
+      offset: 0,
+      half: 0,
+      drag: { isDown: false, startX: 0, startY: 0, startOffset: 0, moved: 0 },
+    })),
+  );
 
-  // Position is driven by a transform rather than scrollLeft. Transforms are
-  // composited on the GPU, so the drift never has to wait on layout; writing
-  // scrollLeft (and reading scrollWidth) every frame forces a synchronous
-  // reflow, which is what made this stutter.
-  const offset = useRef(0);
-  const half = useRef(0);
-  const drag = useRef({ isDown: false, startX: 0, startOffset: 0, moved: 0 });
-
-  // Width of a single copy of the list, measured once and on resize instead
+  // Width of a single copy of each list, measured once and on resize instead
   // of on every frame.
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) {
-      return;
-    }
+    const tracks = trackRefs.current.filter(
+      (track): track is HTMLDivElement => track !== null,
+    );
 
     const measure = () => {
-      half.current = track.scrollWidth / 2;
+      trackRefs.current.forEach((track, index) => {
+        if (track) {
+          strips.current[index].half = track.scrollWidth / 2;
+        }
+      });
     };
 
     measure();
@@ -43,13 +61,13 @@ export default function FilmStrip({ items }: FilmStripProps) {
     }
 
     const observer = new ResizeObserver(measure);
-    observer.observe(track);
+    tracks.forEach((track) => observer.observe(track));
     return () => observer.disconnect();
   }, [items.length]);
 
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) {
+    const section = sectionRef.current;
+    if (!section) {
       return;
     }
 
@@ -58,112 +76,199 @@ export default function FilmStrip({ items }: FilmStripProps) {
     ).matches;
 
     let frame = 0;
+    let running = false;
+    // The scroll push follows an eased copy of scrollY, so a flick of the
+    // wheel turns into a smooth surge rather than a jump.
+    let eased = window.scrollY;
 
     const tick = () => {
-      // Keeps drifting under the cursor; only an active drag takes over.
-      if (!reduceMotion && !drag.current.isDown) {
-        offset.current += SPEED;
-      }
+      const previous = eased;
+      eased += (window.scrollY - eased) * SCROLL_EASE;
+      const pushed = reduceMotion ? 0 : (eased - previous) * SCROLL_PUSH;
 
-      const span = half.current;
-      if (span > 0) {
-        // Wrap in both directions so dragging backwards stays seamless too.
-        if (offset.current >= span) {
-          offset.current -= span;
-        } else if (offset.current < 0) {
-          offset.current += span;
+      STRIPS.forEach(({ direction }, index) => {
+        const strip = strips.current[index];
+        const track = trackRefs.current[index];
+        if (!track) {
+          return;
         }
-      }
 
-      track.style.transform = `translate3d(${-offset.current}px, 0, 0)`;
+        // Keeps drifting under the cursor; only an active drag takes over.
+        if (!reduceMotion && !strip.drag.isDown) {
+          strip.offset += (SPEED + pushed) * direction;
+        }
+
+        const span = strip.half;
+        if (span > 0) {
+          // Wrap in both directions so backwards motion stays seamless too.
+          strip.offset = ((strip.offset % span) + span) % span;
+        }
+
+        track.style.transform = `translate3d(${-strip.offset}px, 0, 0)`;
+      });
+
       frame = window.requestAnimationFrame(tick);
     };
 
-    frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
+    const start = () => {
+      if (!running) {
+        running = true;
+        eased = window.scrollY;
+        frame = window.requestAnimationFrame(tick);
+      }
+    };
+
+    const stop = () => {
+      running = false;
+      window.cancelAnimationFrame(frame);
+    };
+
+    // Only animate while the strips are on screen.
+    if (typeof IntersectionObserver === 'undefined') {
+      start();
+      return stop;
+    }
+
+    const observer = new IntersectionObserver(([entry]) =>
+      entry.isIntersecting ? start() : stop(),
+    );
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      stop();
+    };
   }, []);
 
-  const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    drag.current = {
-      isDown: true,
-      startX: event.clientX,
-      startOffset: offset.current,
-      moved: 0,
+  const onPointerDown =
+    (index: number) => (event: React.PointerEvent<HTMLDivElement>) => {
+      strips.current[index].drag = {
+        isDown: true,
+        startX: event.clientX,
+        startY: event.clientY,
+        startOffset: strips.current[index].offset,
+        moved: 0,
+      };
+      event.currentTarget.setPointerCapture(event.pointerId);
     };
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
 
-  const onPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!drag.current.isDown) {
-      return;
-    }
+  const onPointerMove =
+    (index: number) => (event: React.PointerEvent<HTMLDivElement>) => {
+      const strip = strips.current[index];
+      if (!strip.drag.isDown) {
+        return;
+      }
 
-    const delta = event.clientX - drag.current.startX;
-    drag.current.moved = Math.max(drag.current.moved, Math.abs(delta));
+      // Project the pointer onto the strip's own tilted axis, so dragging
+      // follows the film rather than the screen.
+      const angle = (STRIPS[index].tilt * Math.PI) / 180;
+      const delta =
+        (event.clientX - strip.drag.startX) * Math.cos(angle) +
+        (event.clientY - strip.drag.startY) * Math.sin(angle);
+      strip.drag.moved = Math.max(strip.drag.moved, Math.abs(delta));
 
-    if (drag.current.moved > DRAG_THRESHOLD) {
-      offset.current = drag.current.startOffset - delta;
-    }
-  };
+      if (strip.drag.moved > DRAG_THRESHOLD) {
+        strip.offset = strip.drag.startOffset - delta;
+      }
+    };
 
-  const endDrag = (event: React.PointerEvent<HTMLDivElement>) => {
-    drag.current.isDown = false;
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-  };
+  const endDrag =
+    (index: number) => (event: React.PointerEvent<HTMLDivElement>) => {
+      strips.current[index].drag.isDown = false;
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+    };
 
   if (items.length === 0) {
     return null;
   }
 
-  // Duplicated once so the strip can wrap around without a visible seam.
-  const track = [...items, ...items];
+  // The second strip starts halfway through the list so the same photo is
+  // never sitting on both strips where they cross.
+  const middle = Math.floor(items.length / 2);
+  const lists = [items, [...items.slice(middle), ...items.slice(0, middle)]];
 
   return (
     <section
+      ref={sectionRef}
       aria-label="Recent work"
-      className="relative overflow-hidden border-y border-cream/10 bg-ink py-6"
+      // --strip is the full height of one strip, film edges included. The
+      // section is exactly tall enough for the tilted ends to reach the screen
+      // edges without being clipped, and no taller.
+      className="relative overflow-hidden bg-ink [--strip:12.75rem] sm:[--strip:15.75rem] lg:[--strip:18.75rem]"
+      style={{ height: `calc(${Math.tan((TILT * Math.PI) / 180).toFixed(3)} * 100vw + var(--strip) * 1.02)` }}
     >
-      <div
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-        className="overflow-hidden"
-        // pan-y keeps vertical page scrolling native on phones while
-        // horizontal drags stay ours.
-        style={{ cursor: 'grab', touchAction: 'pan-y' }}
-      >
+      {STRIPS.map(({ tilt }, index) => (
         <div
-          ref={trackRef}
-          className="flex w-max gap-[3px] will-change-transform"
+          key={tilt}
+          onPointerDown={onPointerDown(index)}
+          onPointerMove={onPointerMove(index)}
+          onPointerUp={endDrag(index)}
+          onPointerCancel={endDrag(index)}
+          className={`absolute left-[-15vw] top-1/2 w-[130vw] overflow-hidden shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8)] ${
+            index === 0 ? 'z-10' : 'z-0'
+          }`}
+          // pan-y keeps vertical page scrolling native on phones while
+          // drags along the film stay ours.
+          style={{
+            cursor: 'grab',
+            touchAction: 'pan-y',
+            transform: `translateY(-50%) rotate(${tilt}deg)`,
+          }}
         >
-          {track.map((item, index) => (
-            <div
-              key={`${item.src}-${index}`}
-              aria-hidden
-              className="group relative h-40 w-auto shrink-0 overflow-hidden bg-black/40 sm:h-52 lg:h-60"
-              style={{ aspectRatio: '3 / 2' }}
-            >
-              <Image
-                src={item.previewSrc ?? item.src}
-                alt=""
-                aria-hidden
-                fill
-                draggable={false}
-                sizes="(min-width: 1024px) 24rem, 18rem"
-                className="select-none object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
-              />
-              <span className="absolute inset-0 ring-1 ring-inset ring-cream/10 transition-colors duration-300 group-hover:ring-orchid/50" />
-            </div>
-          ))}
+          <div
+            ref={(node) => {
+              trackRefs.current[index] = node;
+            }}
+            className="flex w-max will-change-transform"
+          >
+            {/* Duplicated once so the strip can wrap around without a visible seam. */}
+            {[...lists[index], ...lists[index]].map((item, frameIndex) => (
+              <Frame key={`${item.src}-${frameIndex}`} item={item} />
+            ))}
+          </div>
         </div>
-      </div>
+      ))}
 
-      {/* Fade the strip into the page edges instead of cutting it off. */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink to-transparent sm:w-28" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink to-transparent sm:w-28" />
+      {/* Fade the strips into the page edges instead of cutting them off. */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-16 bg-gradient-to-r from-ink to-transparent sm:w-28" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-ink to-transparent sm:w-28" />
     </section>
+  );
+}
+
+// Sprocket holes along one edge of a frame, drawn with a repeating gradient
+// so each frame carries its own and they travel with the film.
+const SPROCKETS =
+  'repeating-linear-gradient(90deg, transparent 0 5px, rgba(243, 234, 243, 0.82) 5px 13px, transparent 13px 18px)';
+
+function Frame({ item }: { item: GalleryItem }) {
+  return (
+    <div aria-hidden className="relative shrink-0 bg-[#0a070d] px-[3px] py-[22px]">
+      <span
+        className="absolute inset-x-0 top-[7px] h-[8px] rounded-[1px]"
+        style={{ backgroundImage: SPROCKETS }}
+      />
+      <div
+        className="group relative h-40 overflow-hidden rounded-[3px] bg-black/40 sm:h-52 lg:h-64"
+        style={{ aspectRatio: '3 / 2' }}
+      >
+        <Image
+          src={item.previewSrc ?? item.src}
+          alt=""
+          aria-hidden
+          fill
+          draggable={false}
+          sizes="(min-width: 1024px) 24rem, (min-width: 640px) 20rem, 15rem"
+          className="select-none object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
+        />
+        <span className="absolute inset-0 rounded-[3px] ring-1 ring-inset ring-cream/10 transition-colors duration-300 group-hover:ring-orchid/50" />
+      </div>
+      <span
+        className="absolute inset-x-0 bottom-[7px] h-[8px] rounded-[1px]"
+        style={{ backgroundImage: SPROCKETS }}
+      />
+    </div>
   );
 }
