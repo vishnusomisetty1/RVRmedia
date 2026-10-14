@@ -14,6 +14,7 @@ const SCROLL_PUSH = 0.9; // how far the strips travel per pixel of page scroll
 const SCROLL_EASE = 0.12; // smooths the scroll push so it glides instead of jumps
 const DRAG_THRESHOLD = 6; // px of movement before a pointer counts as a drag
 const TILT = 10; // degrees each strip leans; the two cross at 2 × TILT
+const TILT_RISE = Math.tan((TILT * Math.PI) / 180).toFixed(3); // rise per unit of width
 
 // The two strips lean opposite ways and travel opposite ways.
 const STRIPS = [
@@ -195,9 +196,15 @@ export default function FilmStrip({ items }: FilmStripProps) {
       aria-label="Recent work"
       // --strip is the full height of one strip, film edges included. The
       // section is exactly tall enough for the tilted ends to reach the screen
-      // edges without being clipped, and no taller.
-      className="relative overflow-hidden bg-ink [--strip:12.75rem] sm:[--strip:15.75rem] lg:[--strip:18.75rem]"
-      style={{ height: `calc(${Math.tan((TILT * Math.PI) / 180).toFixed(3)} * 100vw + var(--strip) * 1.02)` }}
+      // edges without being clipped, and no taller. It is pulled up by the
+      // empty wedge above the crossing so that wedge tucks under the hero
+      // instead of reading as a gap; it stays transparent and click-through
+      // there so the hero's scroll cue still shows and works.
+      className="pointer-events-none relative overflow-hidden [--strip:14.75rem] sm:[--strip:18.75rem] lg:[--strip:22.75rem]"
+      style={{
+        height: `calc(${TILT_RISE} * 100vw + var(--strip) * 1.02)`,
+        marginTop: `calc(${TILT_RISE} * -50vw + 0.5rem)`,
+      }}
     >
       {STRIPS.map(({ tilt }, index) => (
         <div
@@ -206,7 +213,7 @@ export default function FilmStrip({ items }: FilmStripProps) {
           onPointerMove={onPointerMove(index)}
           onPointerUp={endDrag(index)}
           onPointerCancel={endDrag(index)}
-          className={`absolute left-[-15vw] top-1/2 w-[130vw] overflow-hidden shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8)] ${
+          className={`pointer-events-auto absolute left-[-15vw] top-1/2 w-[130vw] overflow-hidden shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8)] ${
             index === 0 ? 'z-10' : 'z-0'
           }`}
           // pan-y keeps vertical page scrolling native on phones while
@@ -251,7 +258,7 @@ function Frame({ item }: { item: GalleryItem }) {
         style={{ backgroundImage: SPROCKETS }}
       />
       <div
-        className="group relative h-40 overflow-hidden rounded-[3px] bg-black/40 sm:h-52 lg:h-64"
+        className="group relative h-48 overflow-hidden rounded-[3px] bg-black/40 sm:h-64 lg:h-80"
         style={{ aspectRatio: '3 / 2' }}
       >
         <Image
@@ -260,7 +267,7 @@ function Frame({ item }: { item: GalleryItem }) {
           aria-hidden
           fill
           draggable={false}
-          sizes="(min-width: 1024px) 24rem, (min-width: 640px) 20rem, 15rem"
+          sizes="(min-width: 1024px) 30rem, (min-width: 640px) 24rem, 18rem"
           className="select-none object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
         />
         <span className="absolute inset-0 rounded-[3px] ring-1 ring-inset ring-cream/10 transition-colors duration-300 group-hover:ring-orchid/50" />
