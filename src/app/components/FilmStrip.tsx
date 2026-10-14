@@ -10,7 +10,7 @@ type FilmStripProps = {
 };
 
 const SPEED = 0.6; // pixels per frame at 60fps — a slow, ambient drift
-const SCROLL_PUSH = 0.9; // how far the strips travel per pixel of page scroll
+const SCROLL_PUSH = 4.5; // how far the strips travel per pixel of page scroll (~13 photos per pass)
 const SCROLL_EASE = 0.12; // smooths the scroll push so it glides instead of jumps
 const DRAG_THRESHOLD = 6; // px of movement before a pointer counts as a drag
 const TILT = 10; // degrees each strip leans; the two cross at 2 × TILT
