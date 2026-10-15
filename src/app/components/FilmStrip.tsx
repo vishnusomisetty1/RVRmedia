@@ -85,7 +85,11 @@ export default function FilmStrip({ items }: FilmStripProps) {
     const tick = () => {
       const previous = eased;
       eased += (window.scrollY - eased) * SCROLL_EASE;
-      const pushed = reduceMotion ? 0 : (eased - previous) * SCROLL_PUSH;
+      // Scrolling either way speeds the strips along their own direction;
+      // they never run backwards when the page scrolls up.
+      const pushed = reduceMotion
+        ? 0
+        : Math.abs(eased - previous) * SCROLL_PUSH;
 
       STRIPS.forEach(({ direction }, index) => {
         const strip = strips.current[index];
